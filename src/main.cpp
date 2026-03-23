@@ -15,9 +15,10 @@
 
 #include "Game/Game.hpp"
 
+#include "MainScene/MainScene.hpp"
 namespace Scenes
 {
-    std::unique_ptr<Scene> main_scene;
+    std::unique_ptr<Main> main_scene;
     std::unique_ptr<Scene> other_scene;
 }
 
@@ -30,7 +31,7 @@ int main(void)
 	InitWindow(game.WIDTH, game.HEIGHT, game.TITLE.c_str());
 	game.Init();
 
-	Scenes::main_scene = std::make_unique<Scene>();
+	Scenes::main_scene = std::make_unique<Main>();
     Scenes::other_scene = std::make_unique<Scene>();
 
     game.SetStartScene(Scenes::main_scene.get());
