@@ -6,6 +6,7 @@
 
     <title>raylib web game</title>
     <link rel="shortcut icon" href="https://www.raylib.com/favicon.ico">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 
     <style>
         body { margin: 0px; }
@@ -14,11 +15,16 @@
     </head>
     <body>
         <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-        <p id="output" />
+        <button id="add_entity_btn">Add Cat Entity</button>
         <script>
             var Module = {
                 onRuntimeInitialized: function () {
                     console.log("onRuntimeInitialized ran!");
+
+                    $('#add_entity_btn').click(() => {
+                        console.log("Entity Created!");
+                        Module.create_entity();
+                    })
                 },
                 canvas: (function() {
                     var canvas = document.getElementById('canvas');
