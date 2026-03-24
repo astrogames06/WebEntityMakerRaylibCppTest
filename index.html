@@ -48,20 +48,23 @@
                 })()
             };
 
-            let axis_inputs = $('.input-axis-box');
+            $(document).ready(function() {
+                let axis_inputs = $('.input-axis-box');
 
-            // Loop through them
-            axis_inputs.each((index, element) => {
-                $(element).on('input', () => {
-                    alert(index);
+                // Loop through them
+                axis_inputs.each((index, element) => {
+                    $(element).on('input', function() {
+                        alert(index);
+                        const val = $(this).val().trim();
 
-                    const val = $(this).val();
-                    if ($.isNumeric(val)) {
-                        alert('Number entered:', val);
-                    } else {
-                        alert('Not a number');
-                    }
-                })
+                        const isNumber = val !== '' && !isNaN(parseFloat(val)) && isFinite(val);
+                        if (isNumber && val !== '') {
+                            alert('Number entered: ' + val);
+                        } else {
+                            alert('Not a number');
+                        }
+                    })
+                });
             });
         </script>
         <script src="index.js"></script>
