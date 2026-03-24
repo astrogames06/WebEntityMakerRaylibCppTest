@@ -8,14 +8,30 @@
     <link rel="shortcut icon" href="https://www.raylib.com/favicon.ico">
     <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="style.css">
+
     <style>
         body { margin: 0px; }
         canvas.emscripten { border: 0px none; background-color: black; outline: none !important; }
     </style>
     </head>
     <body>
-        <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
-        <button id="add_entity_btn">Add Cat Entity</button>
+        <div class="game-container">
+            <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
+
+            <div class="game-btn-container">
+                <button id="add_entity_btn">Add Cat Entity</button>
+                <div id="input-box-x">
+                    <span class="label">x:</span>
+                    <input type="number" class="input-axis-box">
+                </div>
+                <div id="input-box-y">
+                    <span class="label">y:</span>
+                    <input type="number" class="input-axis-box">
+                </div>
+            </div>
+        </div>
+
         <script>
             var Module = {
                 onRuntimeInitialized: function () {
@@ -31,6 +47,22 @@
                     return canvas;
                 })()
             };
+
+            let axis_inputs = $('.input-axis-box');
+
+            // Loop through them
+            axis_inputs.each((index, element) => {
+                $(element).on('input', () => {
+                    alert(index);
+
+                    const val = $(this).val();
+                    if ($.isNumeric(val)) {
+                        alert('Number entered:', val);
+                    } else {
+                        alert('Not a number');
+                    }
+                })
+            });
         </script>
         <script src="index.js"></script>
     </body>
