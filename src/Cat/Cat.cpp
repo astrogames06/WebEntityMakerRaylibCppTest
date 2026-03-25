@@ -3,8 +3,7 @@
 void Cat::Init()
 {
     texture = LoadTexture("assets/cat.png");
-    texture.width /= 5;
-    texture.height /= 5;
+    SetTextureFilter(texture, TEXTURE_FILTER_BILINEAR);
 }
 
 void Cat::Draw()
@@ -16,4 +15,6 @@ void Cat::Draw()
         angle,
         WHITE
     );
+    angle++;
+    x++;
 }

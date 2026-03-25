@@ -49,7 +49,7 @@
                     axis_inputs[0].value = Module.get_current_position_angle().x;
                     axis_inputs[1].value = Module.get_current_position_angle().y;
 
-                    $('#input-angle-box').value = Module.get_current_position_angle().z;
+                    $('#input-angle-box').val(Module.get_current_position_angle().z);
                 }
                 else
                 {
@@ -63,9 +63,9 @@
                 onRuntimeInitialized: function () {
                     console.log("onRuntimeInitialized ran!");
 
-                    requestAnimationFrame(javascript_game_loop);
-
                     $(document).ready(function() {
+                        requestAnimationFrame(javascript_game_loop);
+
                         let axis_inputs = $('.input-axis-box');
 
                         $('#add_entity_btn').click(() => {

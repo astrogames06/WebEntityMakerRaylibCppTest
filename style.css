@@ -48,6 +48,11 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     border-radius: 15px;
     padding: 5px;
 }
+.game-container button:hover
+{
+    background: #2d2d30;
+    border-color: rgb(41, 121, 174);
+}
 .game-btn-container div
 {
     padding-left: 10px;
@@ -59,8 +64,14 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     border: none;
     outline: none;
 }
+.game-btn-container div:focus-within
+{
+    background: #2d2d30;
+    border-color: rgb(41, 121, 174);
+}
 .game-btn-container div input[type=number]::-webkit-outer-spin-button,
-.game-btn-container div input[type=number]::-webkit-inner-spin-button {
+.game-btn-container div input[type=number]::-webkit-inner-spin-button
+{
     -webkit-appearance: none;
     -moz-appearance: textfield;     
     margin: 0;
