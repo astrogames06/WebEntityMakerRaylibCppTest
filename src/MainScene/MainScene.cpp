@@ -25,6 +25,7 @@ void Main::Update()
             {
                 is_entity_selected = true;
                 selected_entity = entity;
+                break; // Makes sure it doesn't check if the other entities are being clicked
             }
             else
             {
