@@ -21,26 +21,68 @@
 
             <div class="game-btn-container">
                 <button id="add_entity_btn">Add Cat Entity</button>
-                <div id="input-box-x">
+                <div class="input-box">
                     <span class="label">x:</span>
-                    <input type="number" class="input-axis-box">
+                    <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
                 </div>
-                <div id="input-box-y">
+                <div class="input-box">
                     <span class="label">y:</span>
-                    <input type="number" class="input-axis-box">
+                    <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
                 </div>
             </div>
         </div>
 
         <script>
+            function javascript_game_loop()
+            {
+                let input_axis_boxes = $('.input-box');
+                if (!Module.is_entity_selected())
+                {
+                    input_axis_boxes.hide();
+                }
+                else
+                {
+                    input_axis_boxes.show();
+                }
+
+                requestAnimationFrame(javascript_game_loop);
+            }
+
             var Module = {
                 onRuntimeInitialized: function () {
                     console.log("onRuntimeInitialized ran!");
 
-                    $('#add_entity_btn').click(() => {
-                        console.log("Entity Created!");
-                        Module.create_entity();
-                    })
+                    requestAnimationFrame(javascript_game_loop);
+
+                    $(document).ready(function() {
+                        let axis_inputs = $('.input-axis-box');
+
+                        $('#add_entity_btn').click(() => {
+                            console.log("Entity Created!");
+                            Module.create_entity();
+
+                            axis_inputs[0].value = '0';
+                            axis_inputs[1].value = '0';
+                        });
+
+                        // Loop through them
+                        axis_inputs.each((index, element) => {
+                            $(element).on('input', function() {
+                                // alert(index);
+                                const val = $(this).val().trim();
+
+                                const isNumber = val !== '' && !isNaN(parseFloat(val)) && isFinite(val);
+                                if (isNumber) {
+                                    let x = axis_inputs[0].value;
+                                    let y = axis_inputs[1].value;
+
+                                    Module.set_current_position(x, y);
+                                } else if (!isNumber && val !== '') {
+                                    alert('Not a number');
+                                }
+                            })
+                        });
+                    });
                 },
                 canvas: (function() {
                     var canvas = document.getElementById('canvas');
@@ -48,22 +90,19 @@
                 })()
             };
 
+            // Makes sure the inputs are only numbers
             $(document).ready(function() {
-                let axis_inputs = $('.input-axis-box');
+                $('input[type="number"]').on('keydown', function(e) {
+                    if (["e", "E", "+", "-", "."].includes(e.key)) {
+                        e.preventDefault();
+                    }
+                });
 
-                // Loop through them
-                axis_inputs.each((index, element) => {
-                    $(element).on('input', function() {
-                        alert(index);
-                        const val = $(this).val().trim();
-
-                        const isNumber = val !== '' && !isNaN(parseFloat(val)) && isFinite(val);
-                        if (isNumber && val !== '') {
-                            alert('Number entered: ' + val);
-                        } else {
-                            alert('Not a number');
-                        }
-                    })
+                // Only reset when user leaves the field
+                $('input[type="number"]').on('blur', function() {
+                    if ($(this).val() === "") {
+                        $(this).val(0);
+                    }
                 });
             });
         </script>

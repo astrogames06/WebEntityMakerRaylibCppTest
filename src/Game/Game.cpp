@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <raygui.h>
+#include <emscripten/bind.h>
 
 #include "../Utils/null_img.h"
 Image null_img;
@@ -123,4 +124,16 @@ void Game::SetStartScene(Scene* scene)
 {
     current_scene = scene;
     current_scene->Init();
+}
+
+void SetCurrentPosition(int x, int y)
+{
+    extern Game game;
+
+    game.GetEntitiesOfType<Entity>().back()->x = x;
+    game.GetEntitiesOfType<Entity>().back()->y = y;
+}
+EMSCRIPTEN_BINDINGS(game_module)
+{
+    emscripten::function("set_current_position", &SetCurrentPosition);
 }

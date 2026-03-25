@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
-* { font-family: "JetBrains Mono", monospace; }
+* { font-family: "Inter", sans-serif; }
 canvas.emscripten
 {
     border-radius: 30px;
@@ -33,11 +33,12 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     margin-top: 10px;
     border-radius: 15px;
     gap: 20px;
+    height: 25px;
 }
 
 .game-container button, .game-btn-container div
 {
-    font-weight: 800;
+    font-weight: 600;
     background: #252526;
     border: 1px solid #3f3f46;
     box-shadow: 
@@ -62,4 +63,9 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     -webkit-appearance: none;
     -moz-appearance: textfield;     
     margin: 0;
+}
+
+.input-box
+{
+    display: none;
 }

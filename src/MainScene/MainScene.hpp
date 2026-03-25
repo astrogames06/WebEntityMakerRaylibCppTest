@@ -11,7 +11,8 @@ extern Game game;
 class Main : public Scene
 {
 public:
-   
+    Entity* selected_entity;
+
     void Init() override;
     void Update() override;
     void Draw() override;
