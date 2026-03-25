@@ -10,6 +10,7 @@ public:
     int y;
     int original_x;
     int original_y;
+    float angle;
     Texture2D texture;
     bool remove = false;
     bool alive = true;

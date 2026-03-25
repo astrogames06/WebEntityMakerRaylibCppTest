@@ -46,6 +46,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
         0 0 0 1px rgba(0,0,0,0.5);
     color: white;
     border-radius: 15px;
+    padding: 5px;
 }
 .game-btn-container div
 {

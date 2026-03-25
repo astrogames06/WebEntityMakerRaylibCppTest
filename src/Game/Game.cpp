@@ -126,27 +126,30 @@ void Game::SetStartScene(Scene* scene)
     current_scene->Init();
 }
 
-Vector2 GetCurrentPosition()
+Vector3 GetCurrentPositionAngle()
 {
     extern Game game;
 
     return {
         (float)game.GetEntitiesOfType<Entity>().back()->x,
-        (float)game.GetEntitiesOfType<Entity>().back()->y
+        (float)game.GetEntitiesOfType<Entity>().back()->y,
+        (float)game.GetEntitiesOfType<Entity>().back()->angle
     };
 }
-void SetCurrentPosition(int x, int y)
+void SetCurrentPositionAngle(int x, int y, float angle)
 {
     extern Game game;
 
     game.GetEntitiesOfType<Entity>().back()->x = x;
     game.GetEntitiesOfType<Entity>().back()->y = y;
+    game.GetEntitiesOfType<Entity>().back()->angle = angle;
 }
 EMSCRIPTEN_BINDINGS(game_module)
 {
-    emscripten::value_object<Vector2>("Vector2")
-        .field("x", &Vector2::x)
-        .field("y", &Vector2::y);
-    emscripten::function("get_current_position", &GetCurrentPosition);
-    emscripten::function("set_current_position", &SetCurrentPosition);
+    emscripten::value_object<Vector3>("Vector3")
+        .field("x", &Vector3::x)
+        .field("y", &Vector3::y)
+        .field("z", &Vector3::z);
+    emscripten::function("get_current_position_angle", &GetCurrentPositionAngle);
+    emscripten::function("set_current_position_angle", &SetCurrentPositionAngle);
 }

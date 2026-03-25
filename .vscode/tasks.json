@@ -1,0 +1,6 @@
+{
+    "label": "Build Emscripten",
+    "type": "shell",
+    "command": "${workspaceFolder}/build.sh",
+    "problemMatcher": []
+}

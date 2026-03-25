@@ -20,7 +20,9 @@ void Main::Update()
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             if (CheckCollisionPointRec(game.mouse_pos, 
-                {(float)entity->x, (float)entity->y, (float)entity->texture.width, (float)entity->texture.height}
+                {(float)entity->x - entity->texture.width/2, (float)entity->y - entity->texture.height/2,
+                (float)entity->texture.width, (float)entity->texture.height
+            }
             ))
             {
                 is_entity_selected = true;
@@ -36,15 +38,20 @@ void Main::Update()
 
     if (is_entity_selected && IsMouseButtonDown(MOUSE_BUTTON_LEFT))
     {
-        selected_entity->x = game.mouse_pos.x - selected_entity->texture.width/2;
-        selected_entity->y = game.mouse_pos.y - selected_entity->texture.height/2;
+        selected_entity->x = game.mouse_pos.x;
+        selected_entity->y = game.mouse_pos.y;
     }
 }
 void Main::Draw()
 {
     if (is_entity_selected)
     {
-        DrawRectangleLines(selected_entity->x, selected_entity->y, selected_entity->texture.width, selected_entity->texture.height, GREEN);
+        DrawRectangleLines(
+            selected_entity->x - selected_entity->texture.width/2,
+            selected_entity->y - selected_entity->texture.height/2,
+            selected_entity->texture.width,
+            selected_entity->texture.height,
+        GREEN);
     }
 }
 

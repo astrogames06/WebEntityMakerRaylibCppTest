@@ -9,5 +9,11 @@ void Cat::Init()
 
 void Cat::Draw()
 {
-    DrawTexture(texture, x, y, WHITE);
+    DrawTexturePro(texture,
+        {0, 0, (float)texture.width, (float)texture.height},
+        {(float)x, (float)y, (float)texture.width, (float)texture.height},
+        {(float)texture.width / 2, (float)texture.height / 2},
+        angle,
+        WHITE
+    );
 }

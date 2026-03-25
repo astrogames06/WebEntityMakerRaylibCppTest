@@ -29,6 +29,11 @@
                     <span class="label">y:</span>
                     <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
                 </div>
+                <div class="input-box-divs">
+                    <span class="label">rotation:</span>
+                    <input type="number" value="0" min="0" max="360" step="1" pattern="[0-9]*" class="input-axis-box" id="input-angle-box" required>
+                    <span>°</span>
+                </div>
             </div>
         </div>
 
@@ -41,8 +46,10 @@
                 if (Module.is_entity_selected())
                 {
                     input_axis_divs.show();
-                    axis_inputs[0].value = Module.get_current_position().x;
-                    axis_inputs[1].value = Module.get_current_position().y;
+                    axis_inputs[0].value = Module.get_current_position_angle().x;
+                    axis_inputs[1].value = Module.get_current_position_angle().y;
+
+                    $('#input-angle-box').value = Module.get_current_position_angle().z;
                 }
                 else
                 {
@@ -64,9 +71,6 @@
                         $('#add_entity_btn').click(() => {
                             console.log("Entity Created!");
                             Module.create_entity();
-
-                            axis_inputs[0].value = '0';
-                            axis_inputs[1].value = '0';
                         });
 
                         // Loop through them
@@ -75,15 +79,11 @@
                                 // alert(index);
                                 const val = $(this).val().trim();
 
-                                const isNumber = val !== '' && !isNaN(parseFloat(val)) && isFinite(val);
-                                if (isNumber) {
-                                    let x = axis_inputs[0].value;
-                                    let y = axis_inputs[1].value;
+                                let x = axis_inputs[0].value;
+                                let y = axis_inputs[1].value;
+                                let angle = $('#input-angle-box').val();
 
-                                    Module.set_current_position(x, y);
-                                } else if (!isNumber && val !== '') {
-                                    alert('Not a number');
-                                }
+                                Module.set_current_position_angle(x, y, angle);
                             })
                         });
                     });
