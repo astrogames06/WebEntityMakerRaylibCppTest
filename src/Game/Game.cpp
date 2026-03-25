@@ -126,6 +126,15 @@ void Game::SetStartScene(Scene* scene)
     current_scene->Init();
 }
 
+Vector2 GetCurrentPosition()
+{
+    extern Game game;
+
+    return {
+        (float)game.GetEntitiesOfType<Entity>().back()->x,
+        (float)game.GetEntitiesOfType<Entity>().back()->y
+    };
+}
 void SetCurrentPosition(int x, int y)
 {
     extern Game game;
@@ -135,5 +144,9 @@ void SetCurrentPosition(int x, int y)
 }
 EMSCRIPTEN_BINDINGS(game_module)
 {
+    emscripten::value_object<Vector2>("Vector2")
+        .field("x", &Vector2::x)
+        .field("y", &Vector2::y);
+    emscripten::function("get_current_position", &GetCurrentPosition);
     emscripten::function("set_current_position", &SetCurrentPosition);
 }

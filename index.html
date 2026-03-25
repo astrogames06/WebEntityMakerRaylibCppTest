@@ -21,11 +21,11 @@
 
             <div class="game-btn-container">
                 <button id="add_entity_btn">Add Cat Entity</button>
-                <div class="input-box">
+                <div class="input-box-divs">
                     <span class="label">x:</span>
                     <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
                 </div>
-                <div class="input-box">
+                <div class="input-box-divs">
                     <span class="label">y:</span>
                     <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
                 </div>
@@ -35,14 +35,18 @@
         <script>
             function javascript_game_loop()
             {
-                let input_axis_boxes = $('.input-box');
-                if (!Module.is_entity_selected())
+                let input_axis_divs = $('.input-box-divs');
+                let axis_inputs = $('.input-axis-box');
+
+                if (Module.is_entity_selected())
                 {
-                    input_axis_boxes.hide();
+                    input_axis_divs.show();
+                    axis_inputs[0].value = Module.get_current_position().x;
+                    axis_inputs[1].value = Module.get_current_position().y;
                 }
                 else
                 {
-                    input_axis_boxes.show();
+                    input_axis_divs.hide();
                 }
 
                 requestAnimationFrame(javascript_game_loop);
