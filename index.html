@@ -80,6 +80,10 @@
                     console.log("onRuntimeInitialized ran!");
 
                     $(document).ready(function() {
+                        document.addEventListener('touchstart', function(e) {
+                            e.preventDefault();
+                        }, { passive: false });
+
                         requestAnimationFrame(javascript_game_loop);
 
                         $('#add_entity_btn').click(() => {
@@ -121,6 +125,20 @@
                         //         if (val > max) $(this).val(max);
                         //     }
                         // })
+
+                        // This makes is so that if we click outside the canvas
+                        // On something else other then a "button" or "input" then it blurs
+                        function OnCanvasBlur() { 
+                            Module.on_blur();
+                        }
+
+                        $("#canvas").on('focusout', function(e) {
+                            const target_element = e.relatedTarget;
+                            console.log(target_element);
+                            if (target_element && $(target_element).is('input, button')) return;
+
+                            OnCanvasBlur();
+                        });
                     });
                 },
                 canvas: (function() {

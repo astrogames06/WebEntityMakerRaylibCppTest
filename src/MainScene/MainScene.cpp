@@ -101,6 +101,10 @@ void SetCurrentPositionAngle(int x, int y, float angle)
     selected_entity->y = y;
     selected_entity->angle = angle;
 }
+void OnBlur()
+{
+    is_entity_selected = false;
+}
 EMSCRIPTEN_BINDINGS(main_module)
 {
     emscripten::function("create_sprite", &CreateSprite);
@@ -117,4 +121,5 @@ EMSCRIPTEN_BINDINGS(main_module)
         .field("z", &Vector3::z);
     emscripten::function("get_current_position_angle", &GetCurrentPositionAngle);
     emscripten::function("set_current_position_angle", &SetCurrentPositionAngle);
+    emscripten::function("on_blur", &OnBlur);
 }
