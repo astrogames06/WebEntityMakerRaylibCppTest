@@ -17,19 +17,29 @@
     </head>
     <body>
         <div class="game-container">
+            <div class="game-size-container">
+                <div class="input-size-box-divs info-div-input-boxes">
+                    <span class="label">width:</span>
+                    <input type="number" value="840" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
+                </div>
+                <div class="input-size-box-divs info-div-input-boxes">
+                    <span class="label">height:</span>
+                    <input type="number" value="640" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
+                </div>
+            </div>
             <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
 
             <div class="game-btn-container">
                 <button id="add_entity_btn">Add Sprite</button>
-                <div class="input-box-divs">
+                <div class="input-axis-box-divs info-div-input-boxes">
                     <span class="label">x:</span>
                     <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
                 </div>
-                <div class="input-box-divs">
+                <div class="input-axis-box-divs info-div-input-boxes">
                     <span class="label">y:</span>
                     <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
                 </div>
-                <div class="input-box-divs">
+                <div class="input-axis-box-divs info-div-input-boxes">
                     <span class="label">rotation:</span>
                     <input type="number" value="0" min="0" max="360" step="1" pattern="[0-9]*" class="input-axis-box" id="input-angle-box" required>
                     <span>°</span>
@@ -40,7 +50,11 @@
         <script>
             function javascript_game_loop()
             {
-                let input_axis_divs = $('.input-box-divs');
+                let size_inputs = $('.input-size-box');
+                size_inputs[1].value = Module.get_window_size().x;
+                size_inputs[0].value = Module.get_window_size().y;
+
+                let input_axis_divs = $('.input-axis-box-divs');
                 let axis_inputs = $('.input-axis-box');
 
                 if (Module.is_sprite_selected())
@@ -54,6 +68,8 @@
                 else
                 {
                     input_axis_divs.hide();
+                    // console.log("ee");
+                    // alert("e");
                 }
 
                 requestAnimationFrame(javascript_game_loop);
@@ -66,19 +82,25 @@
                     $(document).ready(function() {
                         requestAnimationFrame(javascript_game_loop);
 
-                        let axis_inputs = $('.input-axis-box');
-
                         $('#add_entity_btn').click(() => {
                             console.log("Entity Created!");
                             Module.create_sprite();
                         });
 
+                        let size_inputs = $('.input-size-box');
+                        size_inputs.each((index, element) => {
+                            $(element).on('input', function() {
+                                let width = size_inputs[0].value;
+                                let height = size_inputs[1].value;
+
+                                Module.set_window_size(width, height);
+                            })
+                        })
+
+                        let axis_inputs = $('.input-axis-box');
                         // Loop through them
                         axis_inputs.each((index, element) => {
                             $(element).on('input', function() {
-                                // alert(index);
-                                const val = $(this).val().trim();
-
                                 let x = axis_inputs[0].value;
                                 let y = axis_inputs[1].value;
                                 let angle = $('#input-angle-box').val();
@@ -86,6 +108,19 @@
                                 Module.set_current_position_angle(x, y, angle);
                             })
                         });
+
+                        // Prevents the numbers being put below/above their min/max
+                        // $('input[type="number"]').on('input', function() {
+                        //     const min = parseInt($(this).attr('min'));
+                        //     const max = parseInt($(this).attr('max'));
+
+                        //     let val = parseInt($(this).val());
+                        //     if (!isNaN(val))
+                        //     {
+                        //         if (val < min) $(this).val(min);
+                        //         if (val > max) $(this).val(max);
+                        //     }
+                        // })
                     });
                 },
                 canvas: (function() {

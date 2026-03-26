@@ -5,6 +5,8 @@ canvas.emscripten
 {
     border-radius: 30px;
     border: 1px solid #007acc;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 
@@ -30,13 +32,25 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     border: 1px solid #3f3f46;
     background: #313132;
     padding: 10px;
-    margin-top: 10px;
+    border-radius: 15px;
+    gap: 20px;
+    height: 25px;
+}
+.game-size-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    border: 1px solid #3f3f46;
+    background: #313132;
+    padding: 10px;
     border-radius: 15px;
     gap: 20px;
     height: 25px;
 }
 
-.game-container button, .game-btn-container div
+.game-container button, .info-div-input-boxes
 {
     font-weight: 600;
     background: #252526;
@@ -53,24 +67,24 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     background: #2d2d30;
     border-color: rgb(41, 121, 174);
 }
-.game-btn-container div
+.info-div-input-boxes
 {
     padding-left: 10px;
 }
-.game-btn-container div input
+.info-div-input-boxes input
 {
     color: white;
     background: none;
     border: none;
     outline: none;
 }
-.game-btn-container div:focus-within
+.info-div-input-boxes:focus-within
 {
     background: #2d2d30;
     border-color: rgb(41, 121, 174);
 }
-.game-btn-container div input[type=number]::-webkit-outer-spin-button,
-.game-btn-container div input[type=number]::-webkit-inner-spin-button
+.info-div-input-boxes input[type=number]::-webkit-outer-spin-button,
+.info-div-input-boxes input[type=number]::-webkit-inner-spin-button
 {
     -webkit-appearance: none;
     -moz-appearance: textfield;     
