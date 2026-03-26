@@ -1,12 +1,12 @@
-#include "Cat.hpp"
+#include "Sprite.hpp"
 
-void Cat::Init()
+void Sprite::Init()
 {
     texture = LoadTexture("assets/cat.png");
     SetTextureFilter(texture, TEXTURE_FILTER_BILINEAR);
 }
 
-void Cat::Draw()
+void Sprite::Draw()
 {
     DrawTexturePro(texture,
         {0, 0, (float)texture.width, (float)texture.height},
@@ -15,6 +15,4 @@ void Cat::Draw()
         angle,
         WHITE
     );
-    angle++;
-    x++;
 }

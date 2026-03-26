@@ -1,12 +1,12 @@
-#ifndef CAT_H
-#define CAT_H
+#ifndef SPRITE_H
+#define SPRITE_H
 
 #include "../Game/Game.hpp"
 #include "../Entity/Entity.hpp"
 
 extern Game game;
 
-struct Cat : public Entity
+struct Sprite : public Entity
 {
 public:
     void Init() override;

@@ -1,7 +1,8 @@
 #include "MainScene.hpp"
 
-#include "../Cat/Cat.hpp"
+#include "../Sprite/Sprite.hpp"
 #include <emscripten/bind.h>
+#include <raylibextra.h>
 
 bool is_entity_selected;
 
@@ -13,21 +14,21 @@ void Main::Init()
 
 void Main::Update()
 {
-    std::cout << game.GetEntitiesOfType<Cat>().size() << '\n';
+    std::cout << game.GetEntitiesOfType<Sprite>().size() << '\n';
 
-    for (Entity* entity : game.GetEntitiesOfType<Entity>(this))
+    for (Sprite* sprite : game.GetEntitiesOfType<Sprite>(this))
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             if (CheckCollisionPointRec(game.mouse_pos, 
-                {(float)entity->x - entity->texture.width/2, (float)entity->y - entity->texture.height/2,
-                (float)entity->texture.width, (float)entity->texture.height
+                {(float)sprite->x - sprite->texture.width/2, (float)sprite->y - sprite->texture.height/2,
+                (float)sprite->texture.width, (float)sprite->texture.height
             }
             ))
             {
                 is_entity_selected = true;
-                selected_entity = entity;
-                break; // Makes sure it doesn't check if the other entities are being clicked
+                selected_entity = sprite;
+                break; // Makes sure it doesn't check if the other sprites are being clicked
             }
             else
             {
@@ -46,12 +47,18 @@ void Main::Draw()
 {
     if (is_entity_selected)
     {
-        DrawRectangleLines(
-            selected_entity->x - selected_entity->texture.width/2,
-            selected_entity->y - selected_entity->texture.height/2,
-            selected_entity->texture.width,
-            selected_entity->texture.height,
-        GREEN);
+        DrawRectangleLinesPro(
+            {
+                (float)selected_entity->x,
+                (float)selected_entity->y,
+                (float)selected_entity->texture.width,
+                (float)selected_entity->texture.height
+            },
+            { (float)selected_entity->texture.width/2, (float)selected_entity->texture.height/2 },
+            selected_entity->angle,
+            2.f,
+            GREEN
+        );
     }
 }
 
@@ -60,18 +67,18 @@ void Main::DrawUI()
 
 }
 
-void CreateEntity()
+void CreateSprite()
 {
-    std::unique_ptr<Cat> new_entity = std::make_unique<Cat>();
+    std::unique_ptr<Sprite> new_sprite = std::make_unique<Sprite>();
 
-    game.AddEntity(std::move(new_entity));
+    game.AddEntity(std::move(new_sprite));
 }
-bool IsEntitySelected()
+bool IsSpriteSelected()
 {
     return is_entity_selected;
 }
 EMSCRIPTEN_BINDINGS(main_module)
 {
-    emscripten::function("create_entity", &CreateEntity);
-    emscripten::function("is_entity_selected", &IsEntitySelected);
+    emscripten::function("create_sprite", &CreateSprite);
+    emscripten::function("is_sprite_selected", &IsSpriteSelected);
 }

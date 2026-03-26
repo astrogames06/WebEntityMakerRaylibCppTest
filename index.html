@@ -20,7 +20,7 @@
             <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
 
             <div class="game-btn-container">
-                <button id="add_entity_btn">Add Cat Entity</button>
+                <button id="add_entity_btn">Add Sprite</button>
                 <div class="input-box-divs">
                     <span class="label">x:</span>
                     <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
@@ -43,7 +43,7 @@
                 let input_axis_divs = $('.input-box-divs');
                 let axis_inputs = $('.input-axis-box');
 
-                if (Module.is_entity_selected())
+                if (Module.is_sprite_selected())
                 {
                     input_axis_divs.show();
                     axis_inputs[0].value = Module.get_current_position_angle().x;
@@ -70,7 +70,7 @@
 
                         $('#add_entity_btn').click(() => {
                             console.log("Entity Created!");
-                            Module.create_entity();
+                            Module.create_sprite();
                         });
 
                         // Loop through them
