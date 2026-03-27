@@ -71,10 +71,10 @@ void Main::Update()
     }
 
     // Deleting entites
-    if (IsKeyPressed(KEY_BACKSPACE))
-    {
-        selected_entity->Delete();
-    }
+    // if (IsKeyPressed(KEY_BACKSPACE))
+    // {
+    //     selected_entity = nullptr;
+    // }
 
     // Makes sure that they are both set false
     if (!is_entity_selected)
@@ -151,6 +151,11 @@ void OnBlur()
 {
     is_entity_selected = false;
 }
+void DeleteCurrentEntity()
+{
+    selected_entity->Delete();
+    selected_entity = nullptr;
+}
 EMSCRIPTEN_BINDINGS(main_module)
 {
     emscripten::function("create_sprite", &CreateSprite);
@@ -168,4 +173,5 @@ EMSCRIPTEN_BINDINGS(main_module)
     emscripten::function("get_current_position_angle", &GetCurrentPositionAngle);
     emscripten::function("set_current_position_angle", &SetCurrentPositionAngle);
     emscripten::function("on_blur", &OnBlur);
+    emscripten::function("delete_current_entity", &DeleteCurrentEntity);
 }

@@ -31,18 +31,22 @@
 
             <div class="game-btn-container">
                 <button id="add_entity_btn">Add Sprite</button>
-                <div class="input-axis-box-divs info-div-input-boxes">
-                    <span class="label">x:</span>
-                    <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
-                </div>
-                <div class="input-axis-box-divs info-div-input-boxes">
-                    <span class="label">y:</span>
-                    <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
-                </div>
-                <div class="input-axis-box-divs info-div-input-boxes">
-                    <span class="label">rotation:</span>
-                    <input type="number" value="0" min="0" max="360" step="1" pattern="[0-9]*" class="input-axis-box" id="input-angle-box" required>
-                    <span>°</span>
+
+                <div class="sprite-editor-inputs-container hidden">
+                    <div class="input-axis-box-divs info-div-input-boxes">
+                        <span class="label">x:</span>
+                        <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
+                    </div>
+                    <div class="input-axis-box-divs info-div-input-boxes">
+                        <span class="label">y:</span>
+                        <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
+                    </div>
+                    <div class="input-axis-box-divs info-div-input-boxes">
+                        <span class="label">rotation:</span>
+                        <input type="number" value="0" min="0" max="360" step="1" pattern="[0-9]*" class="input-axis-box" id="input-angle-box" required>
+                        <span>°</span>
+                    </div>
+                    <button id="delete-entity-btn"><img src="assets/trash.svg" alt="trash"></button>
                 </div>
             </div>
         </div>
@@ -54,23 +58,29 @@
                 size_inputs[1].value = Module.get_window_size().x;
                 size_inputs[0].value = Module.get_window_size().y;
 
-                let input_axis_divs = $('.input-axis-box-divs');
+                let sprite_editor_inputs_container = $('.sprite-editor-inputs-container');
                 let axis_inputs = $('.input-axis-box');
 
                 if (Module.is_sprite_selected())
                 {
-                    input_axis_divs.show();
+                    sprite_editor_inputs_container.removeClass('hidden') // Shows the inputs
                     axis_inputs[0].value = Module.get_current_position_angle().x;
                     axis_inputs[1].value = Module.get_current_position_angle().y;
 
                     $('#input-angle-box').val(Module.get_current_position_angle().z);
+
+                    $('#delete-entity-btn').show(); // shows the option to delete entity
                 }
                 else
                 {
-                    input_axis_divs.hide();
+                    sprite_editor_inputs_container.addClass('hidden'); // Hides the inputs
+                    $('#delete-entity-btn').hide(); // hides the option to delete entity
                     // console.log("ee");
                     // alert("e");
                 }
+
+                // let canvasWidth = $('#canvas')[0].width;
+                // $('.game-btn-container').css('max-width', Module.get_window_size().x + 'px');
 
                 requestAnimationFrame(javascript_game_loop);
             }
@@ -125,6 +135,9 @@
                         //         if (val > max) $(this).val(max);
                         //     }
                         // })
+                        $('#delete-entity-btn').on('click', function() {
+                            Module.delete_current_entity();
+                        })
 
                         // This makes is so that if we click outside the canvas
                         // On something else other then a "button" or "input" then it blurs
@@ -135,7 +148,7 @@
                         $("#canvas").on('focusout', function(e) {
                             const target_element = e.relatedTarget;
                             console.log(target_element);
-                            if (target_element && $(target_element).is('.input-axis-box, .add_entity_btn')) return;
+                            if (target_element && $(target_element).is('.input-axis-box, .add_entity_btn, #delete-entity-btn')) return;
 
                             OnCanvasBlur();
                         });
