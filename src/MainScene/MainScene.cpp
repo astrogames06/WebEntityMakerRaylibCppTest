@@ -2,10 +2,12 @@
 
 #include "../Sprite/Sprite.hpp"
 #include <emscripten/bind.h>
+#include <raygui.h>
 #include <raylibextra.h>
 
 bool is_entity_selected;
 Entity* selected_entity;
+bool is_moving_camera;
 
 void Main::Init()
 {
@@ -45,6 +47,44 @@ void Main::Update()
         selected_entity->y = game.mouse_pos.y;
     }
 
+    // Moving camera
+    is_moving_camera = false;
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
+    {
+        game.camera.target.y -= 500 * GetFrameTime();
+        is_moving_camera = true;
+    }
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
+    {
+        game.camera.target.x -= 500 * GetFrameTime();
+        is_moving_camera = true;
+    }
+    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
+    {
+        game.camera.target.y += 500 * GetFrameTime();
+        is_moving_camera = true;
+    }
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
+    {
+        game.camera.target.x += 500 * GetFrameTime();
+        is_moving_camera = true;
+    }
+
+    // Deleting entites
+    if (IsKeyPressed(KEY_BACKSPACE))
+    {
+        selected_entity->Delete();
+    }
+
+    // Makes sure that they are both set false
+    if (!is_entity_selected)
+    {
+        selected_entity = nullptr;
+    }
+    if (selected_entity == nullptr)
+    {
+        is_entity_selected = false;
+    }
 }
 void Main::Draw()
 {
@@ -67,7 +107,13 @@ void Main::Draw()
 
 void Main::DrawUI()
 {
-
+    if (game.camera.target.x != 0 || game.camera.target.y != 0)
+    {
+        if (GuiButton({20, 20, 100, 40}, "Reset Camera"))
+        {
+            game.camera.target = {0,0};
+        }
+    }
 }
 Vector2 GetWindowSize()
 {

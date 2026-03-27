@@ -135,7 +135,7 @@
                         $("#canvas").on('focusout', function(e) {
                             const target_element = e.relatedTarget;
                             console.log(target_element);
-                            if (target_element && $(target_element).is('input, button')) return;
+                            if (target_element && $(target_element).is('.input-axis-box, .add_entity_btn')) return;
 
                             OnCanvasBlur();
                         });
