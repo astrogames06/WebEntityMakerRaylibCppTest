@@ -21,6 +21,7 @@ public:
     Camera2D camera;
     
     void AddEntity(std::unique_ptr<Entity> entity);
+    void AddSystem(std::unique_ptr<System> system);
 
     template <typename T>
     T* GetEntityOfType(std::optional<Scene*> scene = std::nullopt);

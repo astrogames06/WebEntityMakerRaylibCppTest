@@ -1,8 +1,6 @@
-#ifndef RAYLIBEXTRA_H
-#define RAYLIBEXTRA_H
+#include "raylibextra.h"
 
 #include <math.h>
-#include <raylib.h>
 
 void DrawRectangleLinesPro(Rectangle rect, Vector2 origin, float rotation, float thickness, Color color)
 {
@@ -39,5 +37,3 @@ void DrawRectangleLinesPro(Rectangle rect, Vector2 origin, float rotation, float
         DrawLineEx(start, end, thickness, color);
     }
 }
-
-#endif

@@ -54,6 +54,10 @@ void Game::Update()
         {
             entity->Update();
         }
+        for (std::unique_ptr<System>& system : current_scene->systems)
+        {
+            system->Update();
+        }
 
         // Remove it if Entity->remove = true;
         current_scene->entities.erase(
@@ -82,7 +86,11 @@ void Game::Draw()
         for (std::unique_ptr<Entity>& entity : current_scene->entities)
         {
             entity->Draw();
-        }   
+        }
+        for (std::unique_ptr<System>& system : current_scene->systems)
+        {
+            system->Draw();
+        }
     }
 
     EndMode2D();
@@ -90,6 +98,11 @@ void Game::Draw()
     if (current_scene != nullptr)
     {
         current_scene->DrawUI();
+
+        for (std::unique_ptr<System>& system : current_scene->systems)
+        {
+            system->DrawUI();
+        }
     }
     EndDrawing();
 }
@@ -113,6 +126,29 @@ void Game::AddEntity(std::unique_ptr<Entity> entity)
     }
     else
         std::cout << "! WARNING CURRENT SCENE IS NULLPTR !\n";
+}
+void Game::AddSystem(std::unique_ptr<System> system)
+{
+    if (current_scene != nullptr)
+    {
+        // Adds the system to the systems vector
+        current_scene->systems.push_back(std::move(system));
+
+        // Sets the systems drawing z index
+        system->drawing_z_index = (int)current_scene->systems.size(); // Sets the default z index
+
+        // Initialises the system 
+        for (std::unique_ptr<System>& system : current_scene->systems)
+        {
+            system->Init();
+        }
+        // Sorts the systems based on their z index
+        std::sort(current_scene->systems.begin(), current_scene->systems.end(),
+            [](const std::unique_ptr<System>& a, const std::unique_ptr<System>& b)
+            {
+                return a->drawing_z_index > b->drawing_z_index;
+            });
+    }
 }
 
 void Game::SetScene(Scene* scene)

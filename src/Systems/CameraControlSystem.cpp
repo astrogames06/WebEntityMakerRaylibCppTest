@@ -1,0 +1,110 @@
+#include "CameraControlSystem.hpp"
+
+#include <raylib.h>
+#include <emscripten/bind.h>
+
+#include "../Game/Game.hpp"
+
+extern Game game;
+
+bool is_moving_camera;
+
+Font inter_font;
+void CameraControlSystem::Init()
+{
+    inter_font = LoadFont("assets/PixelInter.ttf");
+}
+
+void CameraControlSystem::Update()
+{
+    // Moving camera
+    is_moving_camera = false;
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
+    {
+        game.camera.target.y -= 500 * GetFrameTime();
+        is_moving_camera = true;
+    }
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
+    {
+        game.camera.target.x -= 500 * GetFrameTime();
+        is_moving_camera = true;
+    }
+    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
+    {
+        game.camera.target.y += 500 * GetFrameTime();
+        is_moving_camera = true;
+    }
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
+    {
+        game.camera.target.x += 500 * GetFrameTime();
+        is_moving_camera = true;
+    }
+}
+
+void CameraControlSystem::Draw()
+{
+    // Draws grid
+    DrawRectangle(100, 100, 200, 200, RED);
+    if (is_moving_camera)
+    {
+        const float GRID_CELL_SIZE = 25.f;
+        Color grid_color = {200, 200, 200, 200};
+
+        float worldWidth  = game.WIDTH  / game.camera.zoom;
+        float worldHeight = game.HEIGHT / game.camera.zoom;
+
+        int startX = (int)((game.camera.target.x - worldWidth) / GRID_CELL_SIZE);
+        int startY = (int)((game.camera.target.y - worldHeight) / GRID_CELL_SIZE);
+
+        int endX = (int)((game.camera.target.x + worldWidth) / GRID_CELL_SIZE) + 1;
+        int endY = (int)((game.camera.target.y + worldHeight) / GRID_CELL_SIZE) + 1;
+
+        for (int x = startX; x < endX; x++)
+        {
+            for (int y = startY; y < endY; y++)
+            {
+                Rectangle cell_rec = {
+                    x * GRID_CELL_SIZE,
+                    y * GRID_CELL_SIZE,
+                    GRID_CELL_SIZE,
+                    GRID_CELL_SIZE
+                };
+
+                DrawRectangleLinesEx(cell_rec, 2.f / game.camera.zoom, grid_color);
+            }
+        }
+    }
+}
+
+bool CameraHasBeenMoved();
+void CameraControlSystem::DrawUI()
+{
+    if (CameraHasBeenMoved())
+    {
+        std::string camera_str =
+        "Camera X: " + std::to_string((int)game.camera.target.x) +
+        ", Y: " + std::to_string((int)game.camera.target.y) +
+        ", Zoom: " + std::to_string(game.camera.zoom) + "x";
+
+        DrawTextEx(inter_font, camera_str.c_str(), {20, 20}, 20, 1.f, BLACK);
+    }
+}
+
+// All Defined Functions
+void ResetCamera()
+{
+    game.camera.target = { 0, 0 };
+    game.camera.offset = { 0, 0 };
+    game.camera.rotation = 0.0f;
+    game.camera.zoom = 1.0f;
+}
+bool CameraHasBeenMoved()
+{
+    return (game.camera.target.x != 0 || game.camera.target.y != 0 || game.camera.zoom != 1.0f);
+}
+
+EMSCRIPTEN_BINDINGS(camera_control_module)
+{
+    emscripten::function("reset_camera", &ResetCamera);
+    emscripten::function("camera_has_been_moved", &CameraHasBeenMoved);
+}
