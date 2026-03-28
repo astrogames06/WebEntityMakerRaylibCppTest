@@ -25,7 +25,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     width: fit-content;
 }
 
-.game-btn-container
+.game-bottom-buttons-container
 {
     display: flex;
     flex-direction: row;
@@ -38,7 +38,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     gap: 20px;
     height: 25px;
 }
-.game-size-container
+.game-top-buttons-container
 {
     display: flex;
     flex-direction: row;
@@ -101,6 +101,29 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 {
     display: flex;
     gap: 10px;
+}
+.top-buttons-left
+{
+    display: flex;
+    gap: 20px;
+}
+#run-game-btn
+{
+    display: flex;
+    justify-content: center;
+    width: 40px;
+}
+#run-game-btn img
+{
+    width: 20px;
+    filter: invert(1);
+}
+#run-game-btn:hover
+{
+    img
+    {
+        filter: brightness(0) saturate(100%) invert(94%) sepia(9%) saturate(2306%) hue-rotate(45deg) brightness(101%) contrast(101%);
+    }
 }
 .hidden
 {

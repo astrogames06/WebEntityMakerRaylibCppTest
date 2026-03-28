@@ -17,8 +17,11 @@
     </head>
     <body>
         <div class="game-container">
-            <div class="game-size-container">
-                <button id="reset-camera-btn" class="hidden">Reset Camera <img src="assets/camera.svg" alt="camera"></button>
+            <div class="game-top-buttons-container">
+                <div class="top-buttons-left">
+                    <button id="run-game-btn"><img src="assets/play.svg" alt="play"></button>
+                    <button id="reset-camera-btn" class="hidden">Reset Camera <img src="assets/camera.svg" alt="camera"></button>
+                </div>
                 <div class="input-size-box-divs">
                     <div class="info-div-input-boxes">
                         <span class="label">width:</span>
@@ -32,7 +35,7 @@
             </div>
             <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
 
-            <div class="game-btn-container">
+            <div class="game-bottom-buttons-container">
                 <button id="add_entity_btn">Add Sprite</button>
 
                 <div class="sprite-editor-inputs-container hidden">

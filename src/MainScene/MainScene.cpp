@@ -3,6 +3,7 @@
 #include "../Sprite/Sprite.hpp"
 #include <emscripten/bind.h>
 #include <raygui.h>
+#include <raymath.h>
 #include <raylibextra.h>
 
 Font inter_font;
@@ -94,6 +95,7 @@ void Main::Update()
     }
 
     float wheel = GetMouseWheelMove() * 0.5f;
+
     if (wheel > 0)
     {
         game.camera.zoom -= 0.5 * GetFrameTime();
@@ -102,27 +104,43 @@ void Main::Update()
     {
         game.camera.zoom += 0.5 * GetFrameTime();
     }
+
+    game.camera.zoom = Clamp(game.camera.zoom, 0.4f, 2.0f);
 }
 void Main::Draw()
 {
+    // Draws grid
     if (is_moving_camera)
     {
-        const float GRID_CELL_SIZE = 50.f;
+        const float GRID_CELL_SIZE = 25.f;
         Color grid_color = {200, 200, 200, 200};
-        for (int x = 0; x < game.WIDTH/GRID_CELL_SIZE; x++)
+
+        float worldWidth  = game.WIDTH  / game.camera.zoom;
+        float worldHeight = game.HEIGHT / game.camera.zoom;
+
+        int startX = (int)((game.camera.target.x - worldWidth) / GRID_CELL_SIZE);
+        int startY = (int)((game.camera.target.y - worldHeight) / GRID_CELL_SIZE);
+
+        int endX = (int)((game.camera.target.x + worldWidth) / GRID_CELL_SIZE) + 1;
+        int endY = (int)((game.camera.target.y + worldHeight) / GRID_CELL_SIZE) + 1;
+
+        for (int x = startX; x < endX; x++)
         {
-            for (int y = 0; y < game.HEIGHT/GRID_CELL_SIZE; y++)
+            for (int y = startY; y < endY; y++)
             {
                 Rectangle cell_rec = {
-                    game.camera.target.x + x * GRID_CELL_SIZE,
-                    game.camera.target.y + y * GRID_CELL_SIZE,
-                    GRID_CELL_SIZE, GRID_CELL_SIZE
+                    x * GRID_CELL_SIZE,
+                    y * GRID_CELL_SIZE,
+                    GRID_CELL_SIZE,
+                    GRID_CELL_SIZE
                 };
 
-                DrawRectangleLinesEx(cell_rec, 2.f, grid_color);
+                DrawRectangleLinesEx(cell_rec, 2.f / game.camera.zoom, grid_color);
             }
         }
     }
+
+    // Draws box around entity
     if (is_entity_selected)
     {
         DrawRectangleLinesPro(
