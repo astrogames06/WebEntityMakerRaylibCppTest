@@ -5,6 +5,8 @@
 #include <raygui.h>
 #include <raylibextra.h>
 
+Font inter_font;
+
 bool is_entity_selected;
 Entity* selected_entity;
 bool is_moving_camera;
@@ -12,6 +14,11 @@ bool is_moving_camera;
 void Main::Init()
 {
     background_color = WHITE;
+
+    inter_font = LoadFont("assets/PixelInter.ttf");
+    GuiSetFont(inter_font);
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 15);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 }
 
 void Main::Update()
@@ -85,9 +92,37 @@ void Main::Update()
     {
         is_entity_selected = false;
     }
+
+    float wheel = GetMouseWheelMove() * 0.5f;
+    if (wheel > 0)
+    {
+        game.camera.zoom -= 0.5 * GetFrameTime();
+    }
+    else if (wheel < 0)
+    {
+        game.camera.zoom += 0.5 * GetFrameTime();
+    }
 }
 void Main::Draw()
 {
+    if (is_moving_camera)
+    {
+        const float GRID_CELL_SIZE = 50.f;
+        Color grid_color = {200, 200, 200, 200};
+        for (int x = 0; x < game.WIDTH/GRID_CELL_SIZE; x++)
+        {
+            for (int y = 0; y < game.HEIGHT/GRID_CELL_SIZE; y++)
+            {
+                Rectangle cell_rec = {
+                    game.camera.target.x + x * GRID_CELL_SIZE,
+                    game.camera.target.y + y * GRID_CELL_SIZE,
+                    GRID_CELL_SIZE, GRID_CELL_SIZE
+                };
+
+                DrawRectangleLinesEx(cell_rec, 2.f, grid_color);
+            }
+        }
+    }
     if (is_entity_selected)
     {
         DrawRectangleLinesPro(
@@ -103,17 +138,30 @@ void Main::Draw()
             GREEN
         );
     }
+
+    if (IsKeyDown(KEY_E)) game.camera.zoom -= 1 * GetFrameTime();
 }
 
+bool CameraHasBeenMoved()
+{
+    return (game.camera.target.x != 0 || game.camera.target.y != 0 || game.camera.zoom != 1.0f);
+}
 void Main::DrawUI()
 {
-    if (game.camera.target.x != 0 || game.camera.target.y != 0)
+    if (CameraHasBeenMoved())
     {
-        if (GuiButton({20, 20, 100, 40}, "Reset Camera"))
-        {
-            game.camera.target = {0,0};
-        }
+        std::string camera_str =
+        "Camera X: " + std::to_string((int)game.camera.target.x) +
+        ", Y: " + std::to_string((int)game.camera.target.y) +
+        ", Zoom: " + std::to_string(game.camera.zoom) + "x";
+
+        DrawTextEx(inter_font, camera_str.c_str(), {20, 20}, 20, 1.f, BLACK);
     }
+
+    // if (CameraHasBeenMoved())
+    // {
+    //     DrawGrid(10, 10);
+    // }
 }
 Vector2 GetWindowSize()
 {
@@ -156,6 +204,13 @@ void DeleteCurrentEntity()
     selected_entity->Delete();
     selected_entity = nullptr;
 }
+void ResetCamera()
+{
+    game.camera.target = { 0, 0 };
+    game.camera.offset = { 0, 0 };
+    game.camera.rotation = 0.0f;
+    game.camera.zoom = 1.0f;
+}
 EMSCRIPTEN_BINDINGS(main_module)
 {
     emscripten::function("create_sprite", &CreateSprite);
@@ -174,4 +229,6 @@ EMSCRIPTEN_BINDINGS(main_module)
     emscripten::function("set_current_position_angle", &SetCurrentPositionAngle);
     emscripten::function("on_blur", &OnBlur);
     emscripten::function("delete_current_entity", &DeleteCurrentEntity);
+    emscripten::function("camera_has_been_moved", &CameraHasBeenMoved);
+    emscripten::function("reset_camera", &ResetCamera);
 }
