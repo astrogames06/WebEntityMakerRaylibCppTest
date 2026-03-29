@@ -5,5 +5,4 @@ set CODE_FILES=
 for /R src %%f in (*.cpp) do (
     set "CODE_FILES=!CODE_FILES! %%f"
 )
-g++ %CODE_FILES% -o game.exe -O1 -Wall -std=c++17 -Wno-missing-braces -I include/ lib/libraylib.win.a -lopengl32 -lgdi32 -lwinmm
-game.exe
+em++ -o index.js %CODE_FILES% -std=c++20 -Os -Wall ./lib/libraylib.web.a -I. -I include/ -L. -L lib/ -lembind -s USE_GLFW=3 --preload-file assets/ -DPLATFORM_WEB

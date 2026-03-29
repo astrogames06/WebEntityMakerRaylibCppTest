@@ -6,9 +6,15 @@
 
 extern Game game;
 
+enum SpriteType
+{
+    MONKEY,
+    PIG
+};
 struct Sprite : public Entity
 {
 public:
+    SpriteType type;
     void Init() override;
     void Draw() override;
 };

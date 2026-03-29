@@ -4,6 +4,7 @@
 #include <emscripten/emscripten.h>
 #include <emscripten/bind.h>
 #include <math.h>
+#include <algorithm>
 
 #include "../Utils/raylibextra.h"
 #include "../MainScene/MainScene.hpp"
@@ -17,6 +18,13 @@ namespace Scenes
 {
     extern std::unique_ptr<Main> main_scene;
 }
+
+EM_JS(void, js_add_entity_to_list, (), {
+    AddEntityToList();
+});
+EM_JS(void, js_remove_entity_from_list, (int index), {
+    RemoveEntityFromList(index);
+});
 
 void SpriteCreateSystem::Init()
 {
@@ -110,11 +118,19 @@ void SetCurrentPositionAngle(int x, int y, float angle)
 void CreateSprite()
 {
     std::unique_ptr<Sprite> new_sprite = std::make_unique<Sprite>();
+    new_sprite->type = SpriteType::MONKEY;
 
-    game.AddEntity(std::move(new_sprite));
+    game.AddEntity(std::move(new_sprite)); // Adds the actual sprite
+    js_add_entity_to_list(); // Add to visual list
 }
 void DeleteCurrentEntity()
 {
+    // Removes from visual list
+    const std::vector<Sprite*>& sprites_v = game.GetEntitiesOfType<Sprite>();
+    int sprite_index = std::find(sprites_v.begin(), sprites_v.end(), selected_sprite) - sprites_v.begin();
+    js_remove_entity_from_list(sprite_index);
+
+    // Deletes the actual sprite
     selected_sprite->Delete();
     selected_sprite = nullptr;
 }

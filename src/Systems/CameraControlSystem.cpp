@@ -1,7 +1,9 @@
 #include "CameraControlSystem.hpp"
 
 #include <raylib.h>
+#include <raymath.h>
 #include <emscripten/bind.h>
+#include <format>
 
 #include "../Game/Game.hpp"
 
@@ -39,12 +41,20 @@ void CameraControlSystem::Update()
         game.camera.target.x += 500 * GetFrameTime();
         is_moving_camera = true;
     }
+
+    float wheel = GetMouseWheelMove();
+    if (wheel != 0.0f)
+    {
+        game.camera.zoom += wheel * 0.1f; // adjust sensitivity
+    }
+
+    game.camera.zoom = std::round(game.camera.zoom * 10.0f) / 10.0f; // Rounds the zoom to one decimal place
+    game.camera.zoom = Clamp(game.camera.zoom, 0.4f, 2.0f); // Makes sure you can't zoom too in/out
 }
 
 void CameraControlSystem::Draw()
 {
     // Draws grid
-    DrawRectangle(100, 100, 200, 200, RED);
     if (is_moving_camera)
     {
         const float GRID_CELL_SIZE = 25.f;
@@ -84,7 +94,7 @@ void CameraControlSystem::DrawUI()
         std::string camera_str =
         "Camera X: " + std::to_string((int)game.camera.target.x) +
         ", Y: " + std::to_string((int)game.camera.target.y) +
-        ", Zoom: " + std::to_string(game.camera.zoom) + "x";
+        ", Zoom: " + std::format("{:.1f}", game.camera.zoom) + "x";
 
         DrawTextEx(inter_font, camera_str.c_str(), {20, 20}, 20, 1.f, BLACK);
     }

@@ -16,45 +16,56 @@
     </style>
     </head>
     <body>
-        <div class="game-container">
-            <div class="game-top-buttons-container">
-                <div class="top-buttons-left">
-                    <button id="run-game-btn"><img src="assets/play.svg" alt="play"></button>
-                    <button id="reset-camera-btn" class="hidden">Reset Camera <img src="assets/camera.svg" alt="camera"></button>
-                </div>
-                <div class="input-size-box-divs">
-                    <div class="info-div-input-boxes">
-                        <span class="label">width:</span>
-                        <input type="number" value="840" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
+        <div class="main-wrapper">
+            <div class="game-container">
+                <div class="game-top-buttons-container">
+                    <div class="top-buttons-left">
+                        <button id="run-game-btn"><img src="assets/icons/play.svg" alt="play"></button>
+                        <button id="reset-camera-btn" class="hidden">Reset Camera <img src="assets/icons/camera.svg" alt="camera"></button>
                     </div>
-                    <div class="info-div-input-boxes">
-                        <span class="label">height:</span>
-                        <input type="number" value="640" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
+                    <div class="input-size-box-divs">
+                        <div class="info-div-input-boxes">
+                            <span class="label">width:</span>
+                            <input type="number" value="840" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
+                        </div>
+                        <div class="info-div-input-boxes">
+                            <span class="label">height:</span>
+                            <input type="number" value="640" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
+                        </div>
+                    </div>
+                </div>
+                <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
+
+                <div class="game-bottom-buttons-container">
+                    <button id="add_entity_btn">Add Sprite <img src="assets/icons/add_sprite.svg" alt="add_sprite"></button>
+
+                    <div class="sprite-editor-inputs-container hidden">
+                        <div class="input-axis-box-divs info-div-input-boxes">
+                            <span class="label">x:</span>
+                            <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
+                        </div>
+                        <div class="input-axis-box-divs info-div-input-boxes">
+                            <span class="label">y:</span>
+                            <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
+                        </div>
+                        <div class="input-axis-box-divs info-div-input-boxes">
+                            <span class="label">rotation:</span>
+                            <input type="number" value="0" min="0" max="360" step="1" pattern="[0-9]*" class="input-axis-box" id="input-angle-box" required>
+                            <span>°</span>
+                        </div>
+                        <button id="delete-entity-btn"><img src="assets/icons/trash.svg" alt="trash"></button>
                     </div>
                 </div>
             </div>
-            <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
 
-            <div class="game-bottom-buttons-container">
-                <button id="add_entity_btn">Add Sprite</button>
-
-                <div class="sprite-editor-inputs-container hidden">
-                    <div class="input-axis-box-divs info-div-input-boxes">
-                        <span class="label">x:</span>
-                        <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
-                    </div>
-                    <div class="input-axis-box-divs info-div-input-boxes">
-                        <span class="label">y:</span>
-                        <input type="number" value="0" min="0" step="1" pattern="[0-9]*" class="input-axis-box" required>
-                    </div>
-                    <div class="input-axis-box-divs info-div-input-boxes">
-                        <span class="label">rotation:</span>
-                        <input type="number" value="0" min="0" max="360" step="1" pattern="[0-9]*" class="input-axis-box" id="input-angle-box" required>
-                        <span>°</span>
-                    </div>
-                    <button id="delete-entity-btn"><img src="assets/trash.svg" alt="trash"></button>
-                </div>
+            <div class="sprites-list-container">
+                <ul class="sprites-list-ul">
+                </ul>
             </div>
+        </div>
+        <div class="output-wrapper">
+            <h1><img src="assets/icons/terminal.svg" alt="terminal">Terminal</h1>
+            <textarea id="output" rows="20" cols="80" readonly></textarea>
         </div>
 
         <script>
@@ -174,6 +185,18 @@
                         });
                     });
                 },
+                print: (function() {
+                    var element = document.getElementById('output');
+                    if (element) element.value = ''; // clear browser cache
+                    return function(text) {
+                        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                        console.log(text);
+                        if (element) {
+                          element.value += text + "\n";
+                          element.scrollTop = element.scrollHeight; // focus on bottom
+                        }
+                    };
+                })(),
                 canvas: (function() {
                     var canvas = document.getElementById('canvas');
                     return canvas;
@@ -194,7 +217,39 @@
                         $(this).val(0);
                     }
                 });
+
+                // Opens the terminal when click
+                $('.output-wrapper h1').on('click', function() {
+                    if ($('#output').css('display') === 'none')
+                    {
+                        $('#output').css('display', 'flex')
+                    }
+                    else
+                    {
+                        $('#output').css('display', 'none')
+                    }
+                });
             });
+
+            function AddEntityToList()
+            {
+                let li_sprite_list_elm = document.createElement("li");
+                let img_sprite_list_elm = document.createElement("img");
+                img_sprite_list_elm.src = "assets/icons/sprite.svg";
+
+                let sprite_list_name = $(".sprites-list-ul li").length;
+                let sprite_list_name_elm = document.createElement("p");
+                sprite_list_name_elm.textContent = `#${sprite_list_name}`;
+
+                li_sprite_list_elm.append(img_sprite_list_elm);
+                li_sprite_list_elm.append(sprite_list_name_elm);
+
+                $('.sprites-list-ul').append(li_sprite_list_elm);
+            }
+            function RemoveEntityFromList(index)
+            {
+                $('.sprites-list-ul li').eq(index).remove();
+            }
         </script>
         <script src="index.js"></script>
     </body>

@@ -26,20 +26,7 @@ void Main::Init()
 
 void Main::Update()
 {
-    std::cout << game.GetEntitiesOfType<Sprite>().size() << '\n';
-
-    float wheel = GetMouseWheelMove() * 0.5f;
-
-    if (wheel > 0)
-    {
-        game.camera.zoom -= 0.5 * GetFrameTime();
-    }
-    else if (wheel < 0)
-    {
-        game.camera.zoom += 0.5 * GetFrameTime();
-    }
-
-    game.camera.zoom = Clamp(game.camera.zoom, 0.4f, 2.0f);
+    // std::cout << game.GetEntitiesOfType<Sprite>().size() << '\n';
 }
 void Main::Draw()
 {
