@@ -3,6 +3,7 @@
 #include <raylib.h>
 #include <emscripten/emscripten.h>
 #include <emscripten/bind.h>
+#include <math.h>
 
 #include "../Utils/raylibextra.h"
 #include "../MainScene/MainScene.hpp"

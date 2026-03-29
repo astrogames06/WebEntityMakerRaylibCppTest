@@ -52,9 +52,17 @@ Vector2 GetWindowSize()
 {
     return { (float)GetScreenWidth(), (float)GetScreenHeight() };
 }
+void SetWindowScreenSize(int width, int height)
+{
+    extern Game game;
+
+    SetWindowSize(width, height);
+    game.WIDTH = width;
+    game.HEIGHT = height;
+}
 EMSCRIPTEN_BINDINGS(main_module)
 {
-    emscripten::function("set_window_size", &SetWindowSize);
+    emscripten::function("set_window_size", &SetWindowScreenSize);
     emscripten::function("get_window_size", &GetWindowSize);
 
     emscripten::value_object<Vector2>("Vector2")

@@ -14,8 +14,8 @@
 class Game
 {
 public:
-    const int WIDTH = 800;
-    const int HEIGHT = 450;
+    int WIDTH = 800;
+    int HEIGHT = 450;
     const std::string TITLE = "raylib [core] example - basic window";
     Vector2 mouse_pos; // Mouse position relative to camera;
     Camera2D camera;

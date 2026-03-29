@@ -61,8 +61,8 @@
             function javascript_game_loop()
             {
                 let size_inputs = $('.input-size-box');
-                size_inputs[1].value = Module.get_window_size().x;
-                size_inputs[0].value = Module.get_window_size().y;
+                size_inputs[0].value = Module.get_window_size().x;
+                size_inputs[1].value = Module.get_window_size().y;
 
                 let sprite_editor_inputs_container = $('.sprite-editor-inputs-container');
                 let axis_inputs = $('.input-axis-box');
@@ -140,17 +140,17 @@
                         });
 
                         // Prevents the numbers being put below/above their min/max
-                        // $('input[type="number"]').on('input', function() {
-                        //     const min = parseInt($(this).attr('min'));
-                        //     const max = parseInt($(this).attr('max'));
+                        $('input[type="number"]').on('input', function() {
+                            const min = parseInt($(this).attr('min'));
+                            const max = parseInt($(this).attr('max'));
 
-                        //     let val = parseInt($(this).val());
-                        //     if (!isNaN(val))
-                        //     {
-                        //         if (val < min) $(this).val(min);
-                        //         if (val > max) $(this).val(max);
-                        //     }
-                        // })
+                            let val = parseInt($(this).val());
+                            if (!isNaN(val))
+                            {
+                                if (val < min) $(this).val(min);
+                                if (val > max) $(this).val(max);
+                            }
+                        })
                         $('#delete-entity-btn').on('click', function() {
                             Module.delete_current_entity();
                         });
