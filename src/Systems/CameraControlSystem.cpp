@@ -49,7 +49,7 @@ void CameraControlSystem::Update()
     }
 
     game.camera.zoom = std::round(game.camera.zoom * 10.0f) / 10.0f; // Rounds the zoom to one decimal place
-    game.camera.zoom = Clamp(game.camera.zoom, 0.4f, 2.0f); // Makes sure you can't zoom too in/out
+    game.camera.zoom = Clamp(game.camera.zoom, 0.5f, 2.0f); // Makes sure you can't zoom too in/out
 }
 
 void CameraControlSystem::Draw()
