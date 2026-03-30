@@ -273,6 +273,7 @@
             {
                 $('.sprites-list-ul li').eq(index).remove();
 
+                // Re arranges the entity list number
                 $('.sprites-list-ul li').each(function(i) {
                     $(this).find('.entity-list-number').text(`#${i}`);
                 });
