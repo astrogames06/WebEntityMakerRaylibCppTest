@@ -34,6 +34,13 @@ bool IsSpriteSelected()
 {
     return is_sprite_selected;
 }
+int SelectedSpriteIndex()
+{
+    const std::vector<Sprite*>& sprites_v = game.GetEntitiesOfType<Sprite>();
+    int sprite_index = std::find(sprites_v.begin(), sprites_v.end(), selected_sprite) - sprites_v.begin();
+
+    return sprite_index;
+}
 void SpriteCreateSystem::Update()
 {
     std::cout << "IsSpriteSelected: " << IsSpriteSelected() << '\n';
@@ -156,6 +163,7 @@ EMSCRIPTEN_BINDINGS(sprite_creator_module)
 {
     emscripten::function("create_sprite", &CreateSprite);
     emscripten::function("is_sprite_selected", &IsSpriteSelected);
+    emscripten::function("selected_sprite_index", &SelectedSpriteIndex);
 
     emscripten::function("get_current_position_angle", &GetCurrentPositionAngle);
     emscripten::function("set_current_position_angle", &SetCurrentPositionAngle);

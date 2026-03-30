@@ -55,20 +55,20 @@
 
             <div class="sprites-list-container">
                 <ul class="sprites-list-ul">
-                    <!-- For the code to duplicate the element -->
-                    <li class="sprite-template" style="display:none;">
-                        <div class="left-side-elements">
-                            <img src="assets/icons/sprite.svg">
-                            <p>#0</p>
-                        </div>
-
-                        <div class="right-side-elements">
-                            <button class="delete-entity-btn-list delete-entity-btn button-to-show"><img src="assets/icons/trash.svg" alt="trash"></button>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>
+        <!-- For the code to duplicate the element -->
+        <li class="sprite-template" style="display:none;">
+            <div class="left-side-elements">
+                <img src="assets/icons/sprite.svg">
+                <p>#0</p>
+            </div>
+
+            <div class="right-side-elements">
+                <button class="delete-entity-btn-list delete-entity-btn button-to-show"><img src="assets/icons/trash.svg" alt="trash"></button>
+            </div>
+        </li>
         <div class="output-wrapper">
             <h1><img src="assets/icons/terminal.svg" alt="terminal">Terminal</h1>
             <textarea id="output" rows="20" cols="80" readonly></textarea>
@@ -88,6 +88,7 @@
 
                 let is_sprite_selected = Module.is_sprite_selected();
                 
+                $('.sprites-list-ul li').removeClass('selected-sprites-list-ul');
                 if (is_sprite_selected)
                 {
                     sprite_editor_inputs_container.removeClass('hidden') // Shows the inputs
@@ -97,11 +98,18 @@
 
                     $('#input-angle-box').val(pos.z);
 
+                    let SelectedSpriteIndex = Module.selected_sprite_index();
+                    // alert(SelectedSpriteIndex);
+                    $('.sprites-list-ul').children().eq(SelectedSpriteIndex).addClass('selected-sprites-list-ul');
+
                     // $('.delete-entity-btn').show(); // shows the option to delete entity
                 }
                 else
                 {
                     sprite_editor_inputs_container.addClass('hidden'); // Hides the inputs
+
+                    // let SelectedSpriteIndex = Module.selected_sprite_index();
+                    // $('.sprites-list-ul').children().eq(SelectedSpriteIndex).removeClass('selected-sprites-list-ul');
                     // $('.delete-entity-btn').hide(); // hides the option to delete entity
                 }
 
@@ -173,8 +181,11 @@
 
                         $(document).on("click", ".delete-entity-btn-list", function () {
                             let entity_index = $(this).closest('li').index();
+
                             alert(entity_index);
                             Module.delete_indexed_entity(entity_index);
+
+                    
                         })
 
                         $("#reset-camera-btn").on('click', function() {
@@ -247,7 +258,8 @@
 
             function AddEntityToList()
             {
-                let new_item = $('.sprites-list-ul li').first().clone();
+                let new_item = $('.sprite-template').clone();
+                new_item.removeClass('sprite-template');
                 new_item.css('display', 'flex');
 
                 let sprite_list_name = $('.sprites-list-ul li').length;
@@ -258,6 +270,10 @@
             function RemoveEntityFromList(index)
             {
                 $('.sprites-list-ul li').eq(index).remove();
+
+                $('.sprites-list-ul li').each(function(i) {
+                    $(this).find('p').text(`#${i}`);
+                });
             }
         </script>
         <script src="index.js"></script>

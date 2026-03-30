@@ -196,8 +196,14 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 .delete-entity-btn img
 {
     width: 20px;
-    height: auto;
+    height: 20px;
     filter: invert(1);
+}
+.delete-entity-btn-list
+{
+    display: flex;
+    align-items: center;
+    width: 35px;
 }
 
 .input-box
@@ -220,13 +226,13 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     padding: 20px;
     color: white;
 }
-.sprites-list-container ul
+.sprites-list-ul
 {
     list-style: none;
     padding-left: 0;
     width: 200px;
 }
-.sprites-list-container ul li
+.sprites-list-ul li
 {
     border: 1px solid #3f3f46;
     background: #313132;
@@ -242,17 +248,17 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     
     height: 30px;
 }
-.sprites-list-container ul li img
+.sprites-list-ul li img
 {
     filter: invert(1);
     width: 30px;
 }
-.sprites-list-container ul li .left-side-elements
+.sprites-list-ul li .left-side-elements
 {
     display: flex;
     gap: 5px;
 }
-.sprites-list-container ul li button
+.sprites-list-ul li button
 {
     background: #252526;
     border: 1px solid #3f3f46;
@@ -261,12 +267,16 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
         0 0 0 1px rgba(0,0,0,0.5);
     height: 35px;
 }
-.sprites-list-container ul li:hover .button-to-show {
+.sprites-list-ul li:hover .button-to-show {
     display: flex;
 }
 
-.sprites-list-container ul li:not(:hover) .button-to-show {
+.sprites-list-ul li:not(:hover) .button-to-show {
     display: none;
+}
+.sprites-list-ul li.selected-sprites-list-ul
+{
+    border: 2px solid rgb(41, 121, 174);
 }
 
 #output
