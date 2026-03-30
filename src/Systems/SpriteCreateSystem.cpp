@@ -19,8 +19,8 @@ namespace Scenes
     extern std::unique_ptr<Main> main_scene;
 }
 
-EM_JS(void, js_add_entity_to_list, (), {
-    AddEntityToList();
+EM_JS(bool, js_add_entity_to_list, (), {
+    return AddEntityToList();
 });
 EM_JS(void, js_remove_entity_from_list, (int index), {
     RemoveEntityFromList(index);
@@ -125,11 +125,13 @@ void SetCurrentPositionAngle(int x, int y, float angle)
 }
 void CreateSprite()
 {
-    std::unique_ptr<Sprite> new_sprite = std::make_unique<Sprite>();
-    new_sprite->type = SpriteType::MONKEY;
+    if (js_add_entity_to_list()) // Add to visual list and checks if its valid
+    {
+        std::unique_ptr<Sprite> new_sprite = std::make_unique<Sprite>();
+        new_sprite->type = SpriteType::MONKEY;
 
-    game.AddEntity(std::move(new_sprite)); // Adds the actual sprite
-    js_add_entity_to_list(); // Add to visual list
+        game.AddEntity(std::move(new_sprite)); // Adds the actual sprite
+    }
 }
 void DeleteCurrentEntity()
 {
