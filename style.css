@@ -179,13 +179,13 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     filter: invert(1);
     width: 20px;
 }
-.delete-entity-btn
+.delete-entity-btn, #delete-entity-btn-game
 {
     border-radius: 10px;
     display: flex;
     text-align: center;
 }
-.delete-entity-btn:hover
+.delete-entity-btn:hover, #delete-entity-btn-game:hover
 {
     border-color: #ff2d6f;
     img
@@ -230,7 +230,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 {
     list-style: none;
     padding-left: 0;
-    width: 200px;
+    min-width: 200px;
 }
 .sprites-list-ul li
 {
@@ -246,6 +246,8 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     font-weight: bold;
     text-align: center;
     
+    min-width: 150px;
+    flex: 1;
     height: 30px;
 }
 .sprites-list-ul li img
@@ -258,6 +260,12 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     display: flex;
     gap: 5px;
 }
+.sprites-list-ul li .right-side-elements
+{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
 .sprites-list-ul li button
 {
     background: #252526;
@@ -269,14 +277,16 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 }
 .sprites-list-ul li:hover .button-to-show {
     display: flex;
+    opacity: 1;
+    transition: all 0.2s;
 }
 
 .sprites-list-ul li:not(:hover) .button-to-show {
-    display: none;
+    opacity: 0;
 }
 .sprites-list-ul li.selected-sprites-list-ul
 {
-    border: 2px solid rgb(41, 121, 174);
+    outline: 2px solid rgb(41, 121, 174);
 }
 
 #output

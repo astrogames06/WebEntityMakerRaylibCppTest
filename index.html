@@ -66,6 +66,7 @@
             </div>
 
             <div class="right-side-elements">
+                <p class="entity-list-name"></p>
                 <button class="delete-entity-btn-list delete-entity-btn button-to-show"><img src="assets/icons/trash.svg" alt="trash"></button>
             </div>
         </li>
@@ -182,10 +183,8 @@
                         $(document).on("click", ".delete-entity-btn-list", function () {
                             let entity_index = $(this).closest('li').index();
 
-                            alert(entity_index);
+                            //alert(entity_index);
                             Module.delete_indexed_entity(entity_index);
-
-                    
                         })
 
                         $("#reset-camera-btn").on('click', function() {
@@ -262,8 +261,11 @@
                 new_item.removeClass('sprite-template');
                 new_item.css('display', 'flex');
 
+                let name = prompt("Enter name: ");
+                new_item.find('.entity-list-name').text(name);
+
                 let sprite_list_name = $('.sprites-list-ul li').length;
-                new_item.find('p').text(`#${sprite_list_name}`);
+                new_item.find('p:not(.entity-list-name)').text(`#${sprite_list_name}`);
 
                 $('.sprites-list-ul').append(new_item);
             }
