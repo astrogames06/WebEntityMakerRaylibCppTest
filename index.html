@@ -62,7 +62,7 @@
         <li class="sprite-template" style="display:none;">
             <div class="left-side-elements">
                 <img src="assets/icons/sprite.svg">
-                <p>#0</p>
+                <p class="entity-list-number">#0</p>
             </div>
 
             <div class="right-side-elements">
@@ -265,7 +265,7 @@
                 new_item.find('.entity-list-name').text(name);
 
                 let sprite_list_name = $('.sprites-list-ul li').length;
-                new_item.find('p:not(.entity-list-name)').text(`#${sprite_list_name}`);
+                new_item.find('.entity-list-number').text(`#${sprite_list_name}`);
 
                 $('.sprites-list-ul').append(new_item);
             }
@@ -274,7 +274,7 @@
                 $('.sprites-list-ul li').eq(index).remove();
 
                 $('.sprites-list-ul li').each(function(i) {
-                    $(this).find('p').text(`#${i}`);
+                    $(this).find('.entity-list-number').text(`#${i}`);
                 });
             }
         </script>
