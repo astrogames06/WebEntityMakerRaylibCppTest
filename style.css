@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 * { font-family: "Inter", sans-serif; }
+body { margin: 0px; }
 canvas.emscripten
 {
     border-radius: 30px;
@@ -12,6 +13,8 @@ canvas.emscripten
     margin-bottom: 10px;
     display: flex;
     justify-self: center;
+    border: 0px none;
+    outline: none !important;
 }
 canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 
@@ -176,13 +179,13 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
     filter: invert(1);
     width: 20px;
 }
-#delete-entity-btn
+.delete-entity-btn
 {
     border-radius: 10px;
     display: flex;
     text-align: center;
 }
-#delete-entity-btn:hover
+.delete-entity-btn:hover
 {
     border-color: #ff2d6f;
     img
@@ -190,7 +193,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
         filter: invert(51%) sepia(67%) saturate(5699%) hue-rotate(335deg) brightness(112%) contrast(109%);
     }
 }
-#delete-entity-btn img
+.delete-entity-btn img
 {
     width: 20px;
     height: auto;
@@ -243,6 +246,27 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 {
     filter: invert(1);
     width: 30px;
+}
+.sprites-list-container ul li .left-side-elements
+{
+    display: flex;
+    gap: 5px;
+}
+.sprites-list-container ul li button
+{
+    background: #252526;
+    border: 1px solid #3f3f46;
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 0 0 1px rgba(0,0,0,0.5);
+    height: 35px;
+}
+.sprites-list-container ul li:hover .button-to-show {
+    display: flex;
+}
+
+.sprites-list-container ul li:not(:hover) .button-to-show {
+    display: none;
 }
 
 #output

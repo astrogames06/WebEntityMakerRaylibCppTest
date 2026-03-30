@@ -9,11 +9,6 @@
     <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        body { margin: 0px; }
-        canvas.emscripten { border: 0px none; background-color: black; outline: none !important; }
-    </style>
     </head>
     <body>
         <div class="main-wrapper">
@@ -53,13 +48,24 @@
                             <input type="number" value="0" min="0" max="360" step="1" pattern="[0-9]*" class="input-axis-box" id="input-angle-box" required>
                             <span>°</span>
                         </div>
-                        <button id="delete-entity-btn"><img src="assets/icons/trash.svg" alt="trash"></button>
+                        <button class="delete-entity-btn" id="delete-entity-btn-game"><img src="assets/icons/trash.svg" alt="trash"></button>
                     </div>
                 </div>
             </div>
 
             <div class="sprites-list-container">
                 <ul class="sprites-list-ul">
+                    <!-- For the code to duplicate the element -->
+                    <li class="sprite-template" style="display:none;">
+                        <div class="left-side-elements">
+                            <img src="assets/icons/sprite.svg">
+                            <p>#0</p>
+                        </div>
+
+                        <div class="right-side-elements">
+                            <button class="delete-entity-btn-list delete-entity-btn button-to-show"><img src="assets/icons/trash.svg" alt="trash"></button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -71,29 +77,32 @@
         <script>
             function javascript_game_loop()
             {
+                // console.log("Module.is_sprite_selected(): ", Module.is_sprite_selected());
                 let size_inputs = $('.input-size-box');
-                size_inputs[0].value = Module.get_window_size().x;
-                size_inputs[1].value = Module.get_window_size().y;
+                let window_size = Module.get_window_size();
+                size_inputs[0].value = window_size.x;
+                size_inputs[1].value = window_size.y;
 
                 let sprite_editor_inputs_container = $('.sprite-editor-inputs-container');
                 let axis_inputs = $('.input-axis-box');
 
-                if (Module.is_sprite_selected())
+                let is_sprite_selected = Module.is_sprite_selected();
+                
+                if (is_sprite_selected)
                 {
                     sprite_editor_inputs_container.removeClass('hidden') // Shows the inputs
-                    axis_inputs[0].value = Module.get_current_position_angle().x;
-                    axis_inputs[1].value = Module.get_current_position_angle().y;
+                    let pos = Module.get_current_position_angle();
+                    axis_inputs[0].value = pos.x;
+                    axis_inputs[1].value = pos.y;
 
-                    $('#input-angle-box').val(Module.get_current_position_angle().z);
+                    $('#input-angle-box').val(pos.z);
 
-                    $('#delete-entity-btn').show(); // shows the option to delete entity
+                    // $('.delete-entity-btn').show(); // shows the option to delete entity
                 }
                 else
                 {
                     sprite_editor_inputs_container.addClass('hidden'); // Hides the inputs
-                    $('#delete-entity-btn').hide(); // hides the option to delete entity
-                    // console.log("ee");
-                    // alert("e");
+                    // $('.delete-entity-btn').hide(); // hides the option to delete entity
                 }
 
                 // Shows the reset camera button
@@ -105,10 +114,6 @@
                 {
                    $('#reset-camera-btn').addClass('hidden');
                 }
-
-                // let canvasWidth = $('#canvas')[0].width;
-                // $('.game-btn-container').css('max-width', Module.get_window_size().x + 'px');
-
                 requestAnimationFrame(javascript_game_loop);
             }
 
@@ -151,20 +156,26 @@
                         });
 
                         // Prevents the numbers being put below/above their min/max
-                        $('input[type="number"]').on('input', function() {
-                            const min = parseInt($(this).attr('min'));
-                            const max = parseInt($(this).attr('max'));
+                        // $('input[type="number"]').on('input', function() {
+                        //     const min = parseInt($(this).attr('min'));
+                        //     const max = parseInt($(this).attr('max'));
 
-                            let val = parseInt($(this).val());
-                            if (!isNaN(val))
-                            {
-                                if (val < min) $(this).val(min);
-                                if (val > max) $(this).val(max);
-                            }
-                        })
-                        $('#delete-entity-btn').on('click', function() {
+                        //     let val = parseInt($(this).val());
+                        //     if (!isNaN(val))
+                        //     {
+                        //         if (val < min) $(this).val(min);
+                        //         if (val > max) $(this).val(max);
+                        //     }
+                        // })
+                        $("#delete-entity-btn-game").on('click', function() {
                             Module.delete_current_entity();
                         });
+
+                        $(document).on("click", ".delete-entity-btn-list", function () {
+                            let entity_index = $(this).closest('li').index();
+                            alert(entity_index);
+                            Module.delete_indexed_entity(entity_index);
+                        })
 
                         $("#reset-camera-btn").on('click', function() {
                             Module.reset_camera();
@@ -179,7 +190,10 @@
                         $("#canvas").on('focusout', function(e) {
                             const target_element = e.relatedTarget;
                             console.log(target_element);
-                            if (target_element && $(target_element).is('.input-axis-box, .add_entity_btn, #delete-entity-btn')) return;
+
+                            // Prevents certain elements from blurring canvas
+                            let elements_list = '.input-axis-box, .add_entity_btn, .delete-entity-btn';
+                            if (target_element && $(target_element).is(elements_list)) return;
 
                             OnCanvasBlur();
                         });
@@ -233,18 +247,13 @@
 
             function AddEntityToList()
             {
-                let li_sprite_list_elm = document.createElement("li");
-                let img_sprite_list_elm = document.createElement("img");
-                img_sprite_list_elm.src = "assets/icons/sprite.svg";
+                let new_item = $('.sprites-list-ul li').first().clone();
+                new_item.css('display', 'flex');
 
-                let sprite_list_name = $(".sprites-list-ul li").length;
-                let sprite_list_name_elm = document.createElement("p");
-                sprite_list_name_elm.textContent = `#${sprite_list_name}`;
+                let sprite_list_name = $('.sprites-list-ul li').length;
+                new_item.find('p').text(`#${sprite_list_name}`);
 
-                li_sprite_list_elm.append(img_sprite_list_elm);
-                li_sprite_list_elm.append(sprite_list_name_elm);
-
-                $('.sprites-list-ul').append(li_sprite_list_elm);
+                $('.sprites-list-ul').append(new_item);
             }
             function RemoveEntityFromList(index)
             {

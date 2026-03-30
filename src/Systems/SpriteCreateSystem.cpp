@@ -11,8 +11,8 @@
 #include "../Entity/Entity.hpp"
 #include "../Sprite/Sprite.hpp"
 
-bool is_sprite_selected;
-Sprite* selected_sprite;
+bool is_sprite_selected = false;
+Sprite* selected_sprite = nullptr;
 
 namespace Scenes
 {
@@ -30,9 +30,13 @@ void SpriteCreateSystem::Init()
 {
     
 }
-
+bool IsSpriteSelected()
+{
+    return is_sprite_selected;
+}
 void SpriteCreateSystem::Update()
 {
+    std::cout << "IsSpriteSelected: " << IsSpriteSelected() << '\n';
     for (Sprite* sprite : game.GetEntitiesOfType<Sprite>(Scenes::main_scene.get()))
     {
         // is_entity_selected = false; // Resets first
@@ -93,10 +97,7 @@ void SpriteCreateSystem::Draw()
 }
 
 // All Defined Functions 
-bool IsSpriteSelected()
-{
-    return is_sprite_selected;
-}
+
 Vector3 GetCurrentPositionAngle()
 {
     extern Game game;
@@ -134,6 +135,18 @@ void DeleteCurrentEntity()
     selected_sprite->Delete();
     selected_sprite = nullptr;
 }
+void DeleteIndexedEntity(int sprite_index)
+{
+    if (game.GetEntitiesOfType<Sprite>()[sprite_index] == selected_sprite) // Checks if entity is the selected one
+    {
+        DeleteCurrentEntity();
+    }
+    else
+    {
+        game.GetEntitiesOfType<Sprite>()[sprite_index]->Delete(); // Otherwise it removes it as normal
+        js_remove_entity_from_list(sprite_index);
+    }
+}
 void OnBlur()
 {
     is_sprite_selected = false;
@@ -149,4 +162,5 @@ EMSCRIPTEN_BINDINGS(sprite_creator_module)
 
     emscripten::function("on_blur", &OnBlur);
     emscripten::function("delete_current_entity", &DeleteCurrentEntity);
+    emscripten::function("delete_indexed_entity", &DeleteIndexedEntity);
 }
