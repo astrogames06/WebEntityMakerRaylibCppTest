@@ -1,3 +1,5 @@
+let name_already_shown = false;
+
 function javascript_game_loop()
 {
     // console.log("Module.is_sprite_selected(): ", Module.is_sprite_selected());
@@ -11,29 +13,30 @@ function javascript_game_loop()
 
     let is_sprite_selected = Module.is_sprite_selected();
     
+    
     $('.sprites-list-ul li').removeClass('selected-sprites-list-ul');
     if (is_sprite_selected)
     {
         sprite_editor_inputs_container.removeClass('hidden') // Shows the inputs
         let current_entity = Module.get_current_entity();
-        axis_inputs[0].value = current_entity.x;
-        axis_inputs[1].value = current_entity.y;
 
-        $('#input-angle-box').val(current_entity.z);
+        if (current_entity) // Makes sure entity exists
+        {
+            $('#input-name-box').val(current_entity.name); // Shows name
 
-        let SelectedSpriteIndex = Module.selected_sprite_index();
-        // alert(SelectedSpriteIndex);
-        $('.sprites-list-ul').children().eq(SelectedSpriteIndex).addClass('selected-sprites-list-ul');
+            axis_inputs[0].value = current_entity.x;
+            axis_inputs[1].value = current_entity.y;
 
-        // $('.delete-entity-btn').show(); // shows the option to delete entity
+            $('#input-angle-box').val(current_entity.angle); // Shows angle
+
+            // Highlights the entity on the list
+            let SelectedSpriteIndex = Module.selected_sprite_index();
+            $('.sprites-list-ul').children().eq(SelectedSpriteIndex).addClass('selected-sprites-list-ul');
+        }
     }
     else
     {
         sprite_editor_inputs_container.addClass('hidden'); // Hides the inputs
-
-        // let SelectedSpriteIndex = Module.selected_sprite_index();
-        // $('.sprites-list-ul').children().eq(SelectedSpriteIndex).removeClass('selected-sprites-list-ul');
-        // $('.delete-entity-btn').hide(); // hides the option to delete entity
     }
 
     // Shows the reset camera button

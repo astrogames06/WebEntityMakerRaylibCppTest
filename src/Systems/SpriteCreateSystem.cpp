@@ -19,8 +19,8 @@ namespace Scenes
     extern std::unique_ptr<Main> main_scene;
 }
 
-EM_JS(bool, js_add_entity_to_list, (), {
-    return AddEntityToList();
+EM_JS(void, js_add_entity_to_list, (const char* name), {
+    AddEntityToList(UTF8ToString(name)); // converts the name to js string
 });
 EM_JS(void, js_remove_entity_from_list, (int index), {
     RemoveEntityFromList(index);
@@ -109,15 +109,46 @@ Sprite* GetCurrentEntity()
 {
     return selected_sprite;
 }
-void CreateSprite()
+Sprite* CreateSprite()
 {
-    if (js_add_entity_to_list()) // Add to visual list and checks if its valid
-    {
-        std::unique_ptr<Sprite> new_sprite = std::make_unique<Sprite>();
-        new_sprite->type = SpriteType::MONKEY;
+    auto sprites_v = game.GetEntitiesOfType<Sprite>();
 
-        game.AddEntity(std::move(new_sprite)); // Adds the actual sprite
+    int name_num_addition = 0;
+
+    std::string new_sprite_name = "Sprite " + std::to_string(name_num_addition); // Default name
+    bool sprite_name_exists = std::find_if(sprites_v.begin(), sprites_v.end(),
+        [&](Sprite* s)
+        {
+            return s->name == new_sprite_name;
+        }) != sprites_v.end();
+
+    while (sprite_name_exists)
+    {
+        name_num_addition++;
+        new_sprite_name = "Sprite " + std::to_string(name_num_addition);
+
+        // Rechecks
+        sprite_name_exists = std::find_if(sprites_v.begin(), sprites_v.end(),
+            [&](Sprite* s)
+            {
+                return s->name == new_sprite_name;
+            }) != sprites_v.end();
     }
+
+    std::unique_ptr<Sprite> new_sprite = std::make_unique<Sprite>();
+    new_sprite->name = new_sprite_name;
+
+    js_add_entity_to_list(new_sprite->name.c_str()); // Uploads the name to the entity list
+    game.AddEntity(std::move(new_sprite)); // Adds the actual sprite
+
+    return new_sprite.get();
+}
+int GetEntityIndex(Entity* entity)
+{
+    auto sprites_v = game.GetEntitiesOfType<Sprite>();
+    int sprite_i = std::find(sprites_v.begin(), sprites_v.end(), entity) - sprites_v.begin();
+
+    return sprite_i;
 }
 void DeleteCurrentEntity()
 {
@@ -149,9 +180,10 @@ void OnBlur()
 
 EMSCRIPTEN_BINDINGS(sprite_creator_module)
 {
-    emscripten::function("create_sprite", &CreateSprite);
+    emscripten::function("create_sprite", &CreateSprite, emscripten::allow_raw_pointers());
     emscripten::function("is_sprite_selected", &IsSpriteSelected);
     emscripten::function("selected_sprite_index", &SelectedSpriteIndex);
+    emscripten::function("get_entity_index", &GetEntityIndex, emscripten::allow_raw_pointers());
 
     emscripten::function("on_blur", &OnBlur);
     emscripten::function("delete_current_entity", &DeleteCurrentEntity);

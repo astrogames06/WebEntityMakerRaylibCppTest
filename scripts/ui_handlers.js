@@ -15,6 +15,7 @@ function InitUI()
                 Module.set_window_size(width, height);
             })
         })
+        
 
         let axis_inputs = $('.input-axis-box');
         // Loop through them
@@ -23,10 +24,22 @@ function InitUI()
                 let x = axis_inputs[0].value;
                 let y = axis_inputs[1].value;
                 let angle = $('#input-angle-box').val();
+                let name = $('#input-name-box').val();
 
-                Module.set_current_position_angle(x, y, angle);
+                let entity = Module.get_current_entity();
+                entity.x = x; entity.y = y; entity.angle = angle;
+                entity.name = name;
             })
         });
+
+        // Updates the sprite name and list as you type it in
+        $('#input-name-box').on('input', function() {
+            let current_entity = Module.get_current_entity();
+            let entity_i = Module.get_entity_index(current_entity);
+
+            current_entity.name = $(this).val();
+            $(".sprites-list-ul li").eq(entity_i).find('.entity-list-name').text(current_entity.name); // Sets the lists new name
+        }); 
 
         // Prevents the numbers being put below/above their min/max
         // $('input[type="number"]').on('input', function() {
@@ -66,7 +79,7 @@ function InitUI()
             console.log(target_element);
 
             // Prevents certain elements from blurring canvas
-            let elements_list = '.input-axis-box, .add_entity_btn, .delete-entity-btn, .input-name-box';
+            let elements_list = '.input-axis-box, .add_entity_btn, .delete-entity-btn, #input-name-box';
             if (target_element && $(target_element).is(elements_list)) return;
 
             OnCanvasBlur();
