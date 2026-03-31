@@ -15,11 +15,11 @@ function javascript_game_loop()
     if (is_sprite_selected)
     {
         sprite_editor_inputs_container.removeClass('hidden') // Shows the inputs
-        let pos = Module.get_current_position_angle();
-        axis_inputs[0].value = pos.x;
-        axis_inputs[1].value = pos.y;
+        let current_entity = Module.get_current_entity();
+        axis_inputs[0].value = current_entity.x;
+        axis_inputs[1].value = current_entity.y;
 
-        $('#input-angle-box').val(pos.z);
+        $('#input-angle-box').val(current_entity.z);
 
         let SelectedSpriteIndex = Module.selected_sprite_index();
         // alert(SelectedSpriteIndex);

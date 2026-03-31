@@ -105,23 +105,9 @@ void SpriteCreateSystem::Draw()
 
 // All Defined Functions 
 
-Vector3 GetCurrentPositionAngle()
+Sprite* GetCurrentEntity()
 {
-    extern Game game;
-
-    return {
-        (float)selected_sprite->x,
-        (float)selected_sprite->y,
-        (float)selected_sprite->angle
-    };
-}
-void SetCurrentPositionAngle(int x, int y, float angle)
-{
-    extern Game game;
-
-    selected_sprite->x = x;
-    selected_sprite->y = y;
-    selected_sprite->angle = angle;
+    return selected_sprite;
 }
 void CreateSprite()
 {
@@ -167,10 +153,12 @@ EMSCRIPTEN_BINDINGS(sprite_creator_module)
     emscripten::function("is_sprite_selected", &IsSpriteSelected);
     emscripten::function("selected_sprite_index", &SelectedSpriteIndex);
 
-    emscripten::function("get_current_position_angle", &GetCurrentPositionAngle);
-    emscripten::function("set_current_position_angle", &SetCurrentPositionAngle);
-
     emscripten::function("on_blur", &OnBlur);
     emscripten::function("delete_current_entity", &DeleteCurrentEntity);
     emscripten::function("delete_indexed_entity", &DeleteIndexedEntity);
+
+    emscripten::function("get_current_entity", &GetCurrentEntity, emscripten::allow_raw_pointers());
+
+    emscripten::class_<Sprite, emscripten::base<Entity>>("Sprite")
+        .property("name", &Sprite::name);
 }

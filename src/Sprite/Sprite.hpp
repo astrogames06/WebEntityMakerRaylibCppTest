@@ -3,6 +3,7 @@
 
 #include "../Game/Game.hpp"
 #include "../Entity/Entity.hpp"
+#include <string>
 
 extern Game game;
 
@@ -14,6 +15,7 @@ enum SpriteType
 struct Sprite : public Entity
 {
 public:
+    std::string name;
     SpriteType type;
     void Init() override;
     void Draw() override;
