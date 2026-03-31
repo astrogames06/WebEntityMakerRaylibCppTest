@@ -1,0 +1,74 @@
+#add_entity_btn
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+#add_entity_btn:hover
+{
+    color: #57bcff;
+    img
+    {
+        filter: brightness(0) saturate(100%) invert(81%) sepia(22%) saturate(7484%) hue-rotate(176deg) brightness(99%) contrast(105%);
+    }
+}
+
+#add_entity_btn img
+{
+    filter: invert(1);
+    width: 20px;
+}
+
+#run-game-btn
+{
+    display: flex;
+    justify-content: center;
+    width: 40px;
+}
+
+#run-game-btn img
+{
+    width: 20px;
+    filter: invert(1);
+}
+
+#run-game-btn:hover
+{
+    border-color: lightgreen;
+    img
+    {
+        filter: brightness(0) saturate(100%) invert(94%) sepia(9%) saturate(2306%) hue-rotate(45deg) brightness(101%) contrast(101%);
+    }
+}
+
+.delete-entity-btn, #delete-entity-btn-game
+{
+    border-radius: 10px;
+    display: flex;
+    text-align: center;
+}
+
+.delete-entity-btn:hover, #delete-entity-btn-game:hover
+{
+    border-color: #ff2d6f;
+    img
+    {
+        filter: invert(51%) sepia(67%) saturate(5699%) hue-rotate(335deg) brightness(112%) contrast(109%);
+    }
+}
+
+.delete-entity-btn img
+{
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+}
+
+.delete-entity-btn-list
+{
+    display: flex;
+    align-items: center;
+    width: 35px;
+}

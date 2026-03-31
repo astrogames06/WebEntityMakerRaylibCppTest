@@ -66,7 +66,7 @@ function InitUI()
             console.log(target_element);
 
             // Prevents certain elements from blurring canvas
-            let elements_list = '.input-axis-box, .add_entity_btn, .delete-entity-btn';
+            let elements_list = '.input-axis-box, .add_entity_btn, .delete-entity-btn, .input-name-box';
             if (target_element && $(target_element).is(elements_list)) return;
 
             OnCanvasBlur();

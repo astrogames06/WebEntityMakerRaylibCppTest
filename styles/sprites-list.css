@@ -1,0 +1,91 @@
+.sprites-list-container
+{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 20px;
+    background: #252526;
+    border: 1px solid #3f3f46;
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 0 0 1px rgba(0,0,0,0.5);
+    justify-self: center;
+    padding: 20px;
+    color: white;
+}
+
+.sprites-list-ul
+{
+    list-style: none;
+    padding-left: 0;
+    min-width: 300px;
+}
+
+.sprites-list-ul li
+{
+    border: 1px solid #3f3f46;
+    background: #313132;
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    
+    min-width: 150px;
+    flex: 1;
+    height: 30px;
+}
+
+.sprites-list-ul li img
+{
+    filter: invert(1);
+    width: 30px;
+}
+
+.sprites-list-ul li .left-side-elements
+{
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.sprites-list-ul li .right-side-elements
+{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.sprites-list-ul li button
+{
+    background: #252526;
+    border: 1px solid #3f3f46;
+    box-shadow: 
+        inset 0 1px 0 rgba(255,255,255,0.04),
+        0 0 0 1px rgba(0,0,0,0.5);
+    height: 35px;
+}
+
+.sprites-list-ul li:hover .button-to-show {
+    display: flex;
+    opacity: 1;
+    transition: all 0.2s;
+}
+
+.sprites-list-ul li:not(:hover) .button-to-show {
+    opacity: 0;
+}
+
+.sprites-list-ul li.selected-sprites-list-ul
+{
+    outline: 2px solid rgb(41, 121, 174);
+}
+
+.entity-list-number
+{
+    font-size: small;
+}

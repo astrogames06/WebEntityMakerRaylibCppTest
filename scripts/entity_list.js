@@ -10,12 +10,14 @@ function AddEntityToList() // Used in the C++
     new_item.removeClass('sprite-template');
     new_item.css('display', 'flex');
 
-    let name = prompt("Enter name: ");
-    if (!name.trim()) return false;
-    new_item.find('.entity-list-name').text(name);
-
-    let sprite_list_name = $('.sprites-list-ul li').length;
-    new_item.find('.entity-list-number').text(`#${sprite_list_name}`);
+    let sprite_list_length = $('.sprites-list-ul li').length;
+    let name_num_addition = 0;
+    while (EntityNameExists(`Sprite ${name_num_addition}`))
+    {
+        name_num_addition += 1
+    }
+    new_item.find('.entity-list-name').text(`Sprite ${sprite_list_length}`)
+    new_item.find('.entity-list-number').text(`#${sprite_list_length}`);
 
     $('.sprites-list-ul').append(new_item);
 
