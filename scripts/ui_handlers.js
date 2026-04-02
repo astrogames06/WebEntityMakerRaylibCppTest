@@ -41,21 +41,22 @@ function InitUI()
             $(".sprites-list-ul li").eq(entity_i).find('.entity-list-name').text(current_entity.name); // Sets the lists new name
         }); 
 
-        // Prevents the numbers being put below/above their min/max
-        // $('input[type="number"]').on('input', function() {
-        //     const min = parseInt($(this).attr('min'));
-        //     const max = parseInt($(this).attr('max'));
-
-        //     let val = parseInt($(this).val());
-        //     if (!isNaN(val))
-        //     {
-        //         if (val < min) $(this).val(min);
-        //         if (val > max) $(this).val(max);
-        //     }
-        // })
         $("#delete-entity-btn-game").on('click', function() {
             Module.delete_current_entity();
         });
+        $(document).on("click", ".copy-entity-btn-list", function () {
+            let entity_index = $(this).closest('li').index();
+            let entity_name = Module.get_sprite_by_index(entity_index).name;
+
+            navigator.clipboard.writeText(entity_name);
+            $(this).find('img').attr('src', 'assets/icons/check.svg'); // Changes icon
+
+            // Makes it go back to normal
+            setTimeout(() => {
+                $(this).find('img').attr('src', 'assets/icons/copy.svg');
+            }, 2000);
+        });
+
 
         $(document).on("click", ".delete-entity-btn-list", function () {
             let entity_index = $(this).closest('li').index();
@@ -79,7 +80,7 @@ function InitUI()
             console.log(target_element);
 
             // Prevents certain elements from blurring canvas
-            let elements_list = '.input-axis-box, .add_entity_btn, .delete-entity-btn, #input-name-box';
+            let elements_list = '.input-axis-box, .add_entity_btn, .delete-entity-btn, #input-name-box, .copy-entity-btn-list';
             if (target_element && $(target_element).is(elements_list)) return;
 
             OnCanvasBlur();

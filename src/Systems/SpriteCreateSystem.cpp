@@ -143,6 +143,14 @@ Sprite* CreateSprite()
 
     return new_sprite.get();
 }
+Entity* GetSpriteByIndex(int index)
+{
+    if (game.GetEntitiesOfType<Sprite>()[index])
+    {
+        return game.GetEntitiesOfType<Sprite>()[index];
+    }
+    return nullptr; // Returns nothing if it doesn't exist
+}
 int GetEntityIndex(Entity* entity)
 {
     auto sprites_v = game.GetEntitiesOfType<Sprite>();
@@ -184,6 +192,7 @@ EMSCRIPTEN_BINDINGS(sprite_creator_module)
     emscripten::function("is_sprite_selected", &IsSpriteSelected);
     emscripten::function("selected_sprite_index", &SelectedSpriteIndex);
     emscripten::function("get_entity_index", &GetEntityIndex, emscripten::allow_raw_pointers());
+    emscripten::function("get_sprite_by_index", &GetSpriteByIndex, emscripten::allow_raw_pointers());
 
     emscripten::function("on_blur", &OnBlur);
     emscripten::function("delete_current_entity", &DeleteCurrentEntity);

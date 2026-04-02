@@ -17,17 +17,29 @@
     border-radius: 15px;
     padding: 5px;
 }
+/* Only for the input boxes not buttons */
+.info-div-input-boxes
+{
+    padding-left: 10px;
+    display: flex;
+    flex: 0 1 120px;
+    width: 120px;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:clip;
+}
 
+.game-container button
+{
+    height: fit-content;
+}
 .game-container button:hover
 {
     background: #2d2d30;
     border-color: rgb(41, 121, 174);
 }
 
-.info-div-input-boxes
-{
-    padding-left: 10px;
-}
 
 .info-div-input-boxes input
 {
@@ -35,6 +47,13 @@
     background: none;
     border: none;
     outline: none;
+
+    flex: 1 1 auto;
+    min-width: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .info-div-input-boxes:focus-within

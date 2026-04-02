@@ -18,7 +18,8 @@
 {
     list-style: none;
     padding-left: 0;
-    min-width: 250px;
+    min-width: 300px;
+    max-width: 400px;
 }
 
 .sprites-list-ul li
@@ -58,12 +59,18 @@
     display: flex;
     align-items: center;
     justify-content: right;
-    width: 60%;
+    width: 70%;
     gap: 5px;
 }
 .sprites-list-ul li .right-side-elements .entity-list-name
 {
     margin-right: auto;
+    flex: 0 1 auto;
+    min-width: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sprites-list-ul li button
@@ -94,4 +101,28 @@
 .entity-list-number
 {
     font-size: small;
+}
+
+.copy-entity-btn-list
+{
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+}
+
+.copy-entity-btn-list img
+{
+    width: 20px;
+    height: 20px;
+}
+
+.copy-entity-btn-list:hover
+{
+    border-color: #57bcff;
+    img
+    {
+        filter: brightness(0) saturate(100%) invert(81%) sepia(22%) saturate(7484%) hue-rotate(176deg) brightness(99%) contrast(105%);
+    }
 }
