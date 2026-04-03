@@ -44,6 +44,12 @@ function InitUI()
         $("#delete-entity-btn-game").on('click', function() {
             Module.delete_current_entity();
         });
+        $("#duplicate-entity-btn-game").on('click', function() {
+            let current_entity = Module.get_current_entity();
+
+            Module.duplicate_sprite(Module.get_current_entity());
+        });
+
         $(document).on("click", ".copy-entity-btn-list", function () {
             let entity_index = $(this).closest('li').index();
             let entity_name = Module.get_sprite_by_index(entity_index).name;

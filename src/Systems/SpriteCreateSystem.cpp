@@ -115,13 +115,14 @@ Sprite* CreateSprite()
 
     int name_num_addition = 0;
 
-    std::string new_sprite_name = "Sprite " + std::to_string(name_num_addition); // Default name
+    std::string new_sprite_name = "Sprite " + std::to_string(name_num_addition); // Sets Default name
     bool sprite_name_exists = std::find_if(sprites_v.begin(), sprites_v.end(),
         [&](Sprite* s)
         {
             return s->name == new_sprite_name;
         }) != sprites_v.end();
 
+    // Checks if the sprite name already exists. If so it keeps updating till its name is unique
     while (sprite_name_exists)
     {
         name_num_addition++;
@@ -138,10 +139,24 @@ Sprite* CreateSprite()
     std::unique_ptr<Sprite> new_sprite = std::make_unique<Sprite>();
     new_sprite->name = new_sprite_name;
 
+    Sprite* raw_sprite_ptr = new_sprite.get(); // Saves the sprites raw pointer
+
     js_add_entity_to_list(new_sprite->name.c_str()); // Uploads the name to the entity list
     game.AddEntity(std::move(new_sprite)); // Adds the actual sprite
 
-    return new_sprite.get();
+    return raw_sprite_ptr;
+}
+void DuplicateSprite(Sprite* sprite)
+{
+    Sprite* new_sprite = CreateSprite(); // Makes new sprite
+    
+    // Copies all sprite info
+    new_sprite->texture = sprite->texture;
+    new_sprite->angle = sprite->angle;
+
+    // Slightly offsets its x and y position
+    new_sprite->x = sprite->x - sprite->texture.width / 2; 
+    new_sprite->y = sprite->y + sprite->texture.height / 2;
 }
 Entity* GetSpriteByIndex(int index)
 {
@@ -189,6 +204,7 @@ void OnBlur()
 EMSCRIPTEN_BINDINGS(sprite_creator_module)
 {
     emscripten::function("create_sprite", &CreateSprite, emscripten::allow_raw_pointers());
+    emscripten::function("duplicate_sprite", &DuplicateSprite, emscripten::allow_raw_pointers());
     emscripten::function("is_sprite_selected", &IsSpriteSelected);
     emscripten::function("selected_sprite_index", &SelectedSpriteIndex);
     emscripten::function("get_entity_index", &GetEntityIndex, emscripten::allow_raw_pointers());

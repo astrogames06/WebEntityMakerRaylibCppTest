@@ -43,7 +43,7 @@
     }
 }
 
-.delete-entity-btn, #delete-entity-btn-game
+.delete-entity-btn, #delete-entity-btn-game, #duplicate-entity-btn-game
 {
     border-radius: 10px;
     display: flex;
@@ -56,6 +56,15 @@
     img
     {
         filter: invert(51%) sepia(67%) saturate(5699%) hue-rotate(335deg) brightness(112%) contrast(109%);
+    }
+}
+
+#duplicate-entity-btn-game:hover
+{
+    border-color: #9e7aff;
+    img
+    {
+        filter: brightness(0) saturate(100%) invert(71%) sepia(50%) saturate(6401%) hue-rotate(221deg) brightness(99%) contrast(105%);
     }
 }
 

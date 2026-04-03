@@ -1,9 +1,16 @@
 #include "Sprite.hpp"
 
+#include <raymath.h>
+
 void Sprite::Init()
 {
     texture = LoadTexture("assets/cat.png");
     SetTextureFilter(texture, TEXTURE_FILTER_BILINEAR);
+}
+
+void Sprite::Update()
+{
+    angle = Clamp(angle, 0.f, 360.f);
 }
 
 void Sprite::Draw()
