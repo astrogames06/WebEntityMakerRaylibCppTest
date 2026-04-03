@@ -1,6 +1,9 @@
 #include "Sprite.hpp"
 
 #include <raymath.h>
+#include <limits>
+
+extern Game game;
 
 void Sprite::Init()
 {
@@ -11,6 +14,9 @@ void Sprite::Init()
 void Sprite::Update()
 {
     angle = Clamp(angle, 0.f, 360.f);
+
+    x = Clamp(x, game.GAME_MIN, game.GAME_MAX);
+    y = Clamp(y, game.GAME_MIN, game.GAME_MAX);
 }
 
 void Sprite::Draw()

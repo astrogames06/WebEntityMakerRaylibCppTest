@@ -48,9 +48,16 @@ function InitUI()
             let current_entity = Module.get_current_entity();
 
             Module.duplicate_sprite(Module.get_current_entity());
+
+            $(this).find('img').attr('src', 'assets/icons/check.svg'); // Changes icon
+
+            // Makes it go back to normal
+            setTimeout(() => {
+                $(this).find('img').attr('src', 'assets/icons/copy.svg');
+            }, 2000);
         });
 
-        $(document).on("click", ".copy-entity-btn-list", function () {
+        $(document).on("click", ".copy-entity-btn-list", function() {
             let entity_index = $(this).closest('li').index();
             let entity_name = Module.get_sprite_by_index(entity_index).name;
 
@@ -62,14 +69,18 @@ function InitUI()
                 $(this).find('img').attr('src', 'assets/icons/copy.svg');
             }, 2000);
         });
-
-
-        $(document).on("click", ".delete-entity-btn-list", function () {
+        $(document).on("click", ".delete-entity-btn-list", function() {
             let entity_index = $(this).closest('li').index();
 
             //alert(entity_index);
             Module.delete_indexed_entity(entity_index);
         })
+        $(document).on("click", ".look-entity-btn-list", function() {
+            let entity_index = $(this).closest('li').index();
+            let entity_target = Module.get_sprite_by_index(entity_index);
+
+            Module.move_camera_to_entity(entity_target);
+        });
 
         $("#reset-camera-btn").on('click', function() {
             Module.reset_camera();
@@ -86,7 +97,15 @@ function InitUI()
             console.log(target_element);
 
             // Prevents certain elements from blurring canvas
-            let elements_list = '.input-axis-box, .add_entity_btn, .delete-entity-btn, #input-name-box, .copy-entity-btn-list';
+            let elements_list = `
+                .input-axis-box,
+                .add_entity_btn,
+                .delete-entity-btn,
+                #input-name-box,
+                .copy-entity-btn-list,
+                #duplicate-entity-btn-game,
+                .look-entity-btn-list
+            `;
             if (target_element && $(target_element).is(elements_list)) return;
 
             OnCanvasBlur();

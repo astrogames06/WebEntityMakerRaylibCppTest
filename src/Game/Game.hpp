@@ -16,6 +16,8 @@ class Game
 public:
     int WIDTH = 800;
     int HEIGHT = 450;
+    float GAME_MIN = -1000000.0f;
+    float GAME_MAX = 1000000.0f;
     const std::string TITLE = "raylib [core] example - basic window";
     Vector2 mouse_pos; // Mouse position relative to camera;
     Camera2D camera;

@@ -48,6 +48,8 @@
     border-radius: 10px;
     display: flex;
     text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .delete-entity-btn:hover, #delete-entity-btn-game:hover
@@ -68,7 +70,7 @@
     }
 }
 
-.delete-entity-btn img
+.delete-entity-btn img, #duplicate-entity-btn-game img, #look-entity-
 {
     width: 20px;
     height: 20px;

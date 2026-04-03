@@ -50,6 +50,10 @@ void CameraControlSystem::Update()
 
     game.camera.zoom = std::round(game.camera.zoom * 10.0f) / 10.0f; // Rounds the zoom to one decimal place
     game.camera.zoom = Clamp(game.camera.zoom, 0.5f, 2.0f); // Makes sure you can't zoom too in/out
+
+    // Clamps it to world position
+    game.camera.target.x = Clamp(game.camera.target.x, game.GAME_MIN, game.GAME_MAX);
+    game.camera.target.y = Clamp(game.camera.target.y, game.GAME_MIN, game.GAME_MAX);
 }
 
 void CameraControlSystem::Draw()
@@ -112,9 +116,17 @@ bool CameraHasBeenMoved()
 {
     return (game.camera.target.x != 0 || game.camera.target.y != 0 || game.camera.zoom != 1.0f);
 }
+void MoveCameraToEntity(Entity* entity)
+{
+    game.camera.target = {
+        (float)entity->x - game.WIDTH / 2,
+        (float)entity->y - game.HEIGHT / 2
+    };
+}
 
 EMSCRIPTEN_BINDINGS(camera_control_module)
 {
     emscripten::function("reset_camera", &ResetCamera);
     emscripten::function("camera_has_been_moved", &CameraHasBeenMoved);
+    emscripten::function("move_camera_to_entity", &MoveCameraToEntity, emscripten::allow_raw_pointers());
 }
