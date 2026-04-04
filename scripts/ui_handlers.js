@@ -113,7 +113,8 @@ function InitUI()
                 .copy-entity-btn-list,
                 #duplicate-entity-btn-game,
                 .look-entity-btn-list,
-                .sprites-list-li
+                .sprites-list-li,
+                #showgrid-btn, #showgrid-checkbox
             `;
             if (target_element && $(target_element).is(elements_list)) return;
 
