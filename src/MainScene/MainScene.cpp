@@ -17,11 +17,11 @@ void Main::Init()
     background_color = WHITE;
 
     // InitCameraControlSystem();
-    sprite_create_system = std::make_unique<SpriteCreateSystem>();
-    game.AddSystem(std::move(sprite_create_system));
-
     camera_control_system = std::make_unique<CameraControlSystem>();
     game.AddSystem(std::move(camera_control_system));
+
+    sprite_create_system = std::make_unique<SpriteCreateSystem>();
+    game.AddSystem(std::move(sprite_create_system));
 }
 
 void Main::Update()

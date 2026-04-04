@@ -1,11 +1,13 @@
 #include "CameraControlSystem.hpp"
 
+#include <emscripten/emscripten.h>
 #include <raylib.h>
 #include <raymath.h>
 #include <emscripten/bind.h>
 #include <format>
 
 #include "../Game/Game.hpp"
+#include "SpriteCreateSystem.hpp"
 
 extern Game game;
 
@@ -56,13 +58,18 @@ void CameraControlSystem::Update()
     game.camera.target.y = Clamp(game.camera.target.y, game.GAME_MIN, game.GAME_MAX);
 }
 
+EM_JS(bool, js_show_grid_checkbox_on, (), {
+    return ShowGridCheckboxOn();
+});
 void CameraControlSystem::Draw()
 {
-    // Draws grid
-    if (is_moving_camera)
+    // // Checks if sprite is being moved
+    // bool is_editing_sprite = (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && is_sprite_selected && did_click_on_sprite);
+    // // Draws grid
+    if (js_show_grid_checkbox_on())
     {
         const float GRID_CELL_SIZE = 25.f;
-        Color grid_color = {200, 200, 200, 200};
+        Color grid_color = {212, 212, 212, 255};
 
         float worldWidth  = game.WIDTH  / game.camera.zoom;
         float worldHeight = game.HEIGHT / game.camera.zoom;

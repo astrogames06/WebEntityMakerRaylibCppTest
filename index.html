@@ -7,6 +7,7 @@
     <title>raylib web game</title>
     <link rel="shortcut icon" href="https://www.raylib.com/favicon.ico">
     <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/canvas.css">
@@ -24,6 +25,7 @@
                     <div class="top-buttons-left">
                         <button id="run-game-btn"><img src="assets/icons/play.svg" alt="play"></button>
                         <button id="code-editor-btn">Code Editor <img src="assets/icons/code.svg" alt="code"></button>
+                        <label id="showgrid-btn">Show Grid<input id="showgrid-checkbox" type="checkbox"></label>
                         <button id="reset-camera-btn" class="hidden">Reset Camera <img src="assets/icons/camera.svg" alt="camera"></button>
                     </div>
                     <div class="input-size-box-divs">
@@ -94,6 +96,7 @@
         <script src="scripts/javascript_game_loop.js"></script>
         <script src="scripts/entity_list.js"></script>
         <script src="scripts/ui_handlers.js"></script>
+        <script src="scripts/grid.js"></script>
         <script src="scripts/main.js"></script>
         <script src="index.js"></script>
     </body>
