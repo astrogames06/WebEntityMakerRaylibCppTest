@@ -15,7 +15,6 @@ function InitUI()
                 Module.set_window_size(width, height);
             })
         })
-        
 
         let axis_inputs = $('.input-axis-box');
         // Loop through them
@@ -30,6 +29,15 @@ function InitUI()
                 entity.x = x; entity.y = y; entity.angle = angle;
                 entity.name = name;
             })
+        });
+
+        $('.sprites-list-ul').on('click', 'li', function(e) {
+            if ($(e.target).is('button, img')) return;
+
+            let index = $(this).index() // Gets index
+            let sprite_to_be_selected = Module.get_sprite_by_index(index); // Gets index of li
+
+            Module.set_selected_entity(sprite_to_be_selected); // Sets selected sprite
         });
 
         // Updates the sprite name and list as you type it in
@@ -104,7 +112,8 @@ function InitUI()
                 #input-name-box,
                 .copy-entity-btn-list,
                 #duplicate-entity-btn-game,
-                .look-entity-btn-list
+                .look-entity-btn-list,
+                .sprites-list-li
             `;
             if (target_element && $(target_element).is(elements_list)) return;
 

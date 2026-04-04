@@ -2,6 +2,7 @@ function AddEntityToList(SpriteName) // Used in the C++
 {
     let new_item = $('.sprite-template').clone();
     new_item.removeClass('sprite-template');
+    new_item.addClass('sprites-list-li');
     new_item.css('display', 'flex');
 
     let sprite_list_length = $('.sprites-list-ul li').length;

@@ -58,6 +58,30 @@
     width: 20px;
 }
 
+#code-editor-btn
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: left;
+    outline: none !important;
+}
+
+#code-editor-btn img
+{
+    filter: invert(1);
+    width: 20px;
+}
+
+#code-editor-btn:hover
+{
+    color: #57bcff;
+    img
+    {
+        filter: brightness(0) saturate(100%) invert(81%) sepia(22%) saturate(7484%) hue-rotate(176deg) brightness(99%) contrast(105%);
+    }
+}
+
 .input-box
 {
     display: none;

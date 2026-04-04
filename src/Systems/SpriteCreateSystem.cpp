@@ -41,14 +41,14 @@ int SelectedSpriteIndex()
 
     return sprite_index;
 }
+
+bool did_click_on_sprite = false;
 void SpriteCreateSystem::Update()
 {
-    std::cout << "IsSpriteSelected: " << IsSpriteSelected() << '\n';
+    // std::cout << "IsSpriteSelected: " << IsSpriteSelected() << '\n';
     for (Sprite* sprite : game.GetEntitiesOfType<Sprite>(Scenes::main_scene.get()))
     {
-        // is_entity_selected = false; // Resets first
-
-        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
             if (CheckCollisionPointRec(game.mouse_pos, 
                 {(float)sprite->x - sprite->texture.width/2, (float)sprite->y - sprite->texture.height/2,
@@ -56,18 +56,24 @@ void SpriteCreateSystem::Update()
             }
             ))
             {
+                did_click_on_sprite = true; // Checks if any sprite was clicked
                 is_sprite_selected = true;
                 selected_sprite = sprite;
                 break; // Makes sure it doesn't check if the other sprites are being clicked
             }
             else
             {
-                is_sprite_selected = false;
+                did_click_on_sprite = false; // This only happens if NO sprites where clicked because of the 'break'
             }
         }
     }
+    if (!did_click_on_sprite) // Makes sure to de-select the sprite if you click not on it
+    {
+        selected_sprite = nullptr;
+        is_sprite_selected = false;
+    }
 
-    if (is_sprite_selected && IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && is_sprite_selected && did_click_on_sprite) // Checks if you are dragging it
     {
         selected_sprite->x = game.mouse_pos.x;
         selected_sprite->y = game.mouse_pos.y;
@@ -109,9 +115,20 @@ Sprite* GetCurrentEntity()
 {
     return selected_sprite;
 }
+void SetSelectedEntity(Sprite* sprite)
+{
+    if (!sprite)
+    {
+        std::cerr << "Trying To Selected NULL Entity\n"; // If sprite doesn't exist we will print error
+        return;
+    }
+    // Otherwise we set the selected sprite
+    selected_sprite = sprite;
+    is_sprite_selected = true;
+}
 Sprite* CreateSprite()
 {
-    auto sprites_v = game.GetEntitiesOfType<Sprite>();
+    const auto& sprites_v = game.GetEntitiesOfType<Sprite>();
 
     int name_num_addition = 0;
 
@@ -160,9 +177,10 @@ void DuplicateSprite(Sprite* sprite)
 }
 Entity* GetSpriteByIndex(int index)
 {
-    if (game.GetEntitiesOfType<Sprite>()[index])
+    const auto& sprites_v = game.GetEntitiesOfType<Sprite>();
+    if (index >= 0 && index < sprites_v.size() && sprites_v[index] != nullptr)
     {
-        return game.GetEntitiesOfType<Sprite>()[index];
+        return sprites_v[index];
     }
     return nullptr; // Returns nothing if it doesn't exist
 }
@@ -204,6 +222,7 @@ void OnBlur()
 EMSCRIPTEN_BINDINGS(sprite_creator_module)
 {
     emscripten::function("create_sprite", &CreateSprite, emscripten::allow_raw_pointers());
+    emscripten::function("set_selected_entity", &SetSelectedEntity, emscripten::allow_raw_pointers());
     emscripten::function("duplicate_sprite", &DuplicateSprite, emscripten::allow_raw_pointers());
     emscripten::function("is_sprite_selected", &IsSpriteSelected);
     emscripten::function("selected_sprite_index", &SelectedSpriteIndex);
