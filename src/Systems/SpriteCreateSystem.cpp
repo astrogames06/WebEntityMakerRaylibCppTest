@@ -67,7 +67,7 @@ void SpriteCreateSystem::Update()
             }
         }
     }
-    if (!did_click_on_sprite) // Makes sure to de-select the sprite if you click not on it
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !did_click_on_sprite) // Makes sure to de-select the sprite if you click not on it
     {
         selected_sprite = nullptr;
         is_sprite_selected = false;
