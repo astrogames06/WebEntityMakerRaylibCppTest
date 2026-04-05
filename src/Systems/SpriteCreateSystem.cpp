@@ -126,7 +126,7 @@ void SetSelectedEntity(Sprite* sprite)
     selected_sprite = sprite;
     is_sprite_selected = true;
 }
-Sprite* CreateSprite()
+Sprite* CreateSprite(std::string texture_name)
 {
     const auto& sprites_v = game.GetEntitiesOfType<Sprite>();
 
@@ -154,6 +154,7 @@ Sprite* CreateSprite()
     }
 
     std::unique_ptr<Sprite> new_sprite = std::make_unique<Sprite>();
+    new_sprite->texture_name = texture_name;
     new_sprite->name = new_sprite_name;
 
     Sprite* raw_sprite_ptr = new_sprite.get(); // Saves the sprites raw pointer
@@ -165,7 +166,7 @@ Sprite* CreateSprite()
 }
 void DuplicateSprite(Sprite* sprite)
 {
-    Sprite* new_sprite = CreateSprite(); // Makes new sprite
+    Sprite* new_sprite = CreateSprite(sprite->texture_name); // Makes new sprite
     
     // Copies all sprite info
     new_sprite->texture = sprite->texture;

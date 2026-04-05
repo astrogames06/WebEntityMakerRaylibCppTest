@@ -12,6 +12,26 @@
     justify-self: center;
     padding: 20px;
     color: white;
+
+    max-height: 570px;
+    overflow-y: auto;
+}
+.sprites-list-container::-webkit-scrollbar {
+    width: 6px;              /* thickness of scrollbar */
+    background: transparent; /* no background */
+    margin-top: 10px;
+}
+
+.sprites-list-container::-webkit-scrollbar-track {
+    background: transparent; /* remove track bg */
+    /* prevents it from going over the container */
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.sprites-list-container::-webkit-scrollbar-thumb {
+    background: white;       /* the white line */
+    border-radius: 10px;
 }
 
 .sprites-list-ul

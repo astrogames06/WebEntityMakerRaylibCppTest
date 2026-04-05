@@ -7,7 +7,7 @@ extern Game game;
 
 void Sprite::Init()
 {
-    texture = LoadTexture("assets/cat.png");
+    texture = LoadTexture(texture_name.c_str());
     SetTextureFilter(texture, TEXTURE_FILTER_BILINEAR);
 }
 

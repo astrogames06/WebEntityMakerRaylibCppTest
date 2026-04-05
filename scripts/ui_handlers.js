@@ -3,7 +3,9 @@ function InitUI()
     $(document).ready(function() {
         $('#add_entity_btn').click(() => {
             console.log("Entity Created!");
-            Module.create_sprite();
+            // Opens the sprite selector
+
+            $('.sprite-selector-container-part').removeClass('sprite-selector-container-hidden');
         });
 
         let size_inputs = $('.input-size-box');
@@ -132,5 +134,7 @@ function InitUI()
                 $('#output').css('display', 'none')
             }
         });
+
+        window.InitSpriteSelector();
     });
 }

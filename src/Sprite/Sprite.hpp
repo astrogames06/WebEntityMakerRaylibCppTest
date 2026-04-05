@@ -7,16 +7,12 @@
 
 extern Game game;
 
-enum SpriteType
-{
-    MONKEY,
-    PIG
-};
 struct Sprite : public Entity
 {
 public:
     std::string name;
-    SpriteType type;
+    std::string texture_name;
+
     void Init() override;
     void Update() override;
     void Draw() override;
