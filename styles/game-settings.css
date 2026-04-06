@@ -103,6 +103,7 @@
 {
     display: flex;
     align-items: center;
+    gap: 10px;
     justify-content: center;
     border: 1px solid #3f3f46;
     background: #313132;
