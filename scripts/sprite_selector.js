@@ -1,7 +1,7 @@
-window.InitSpriteSelector = function()
+window.InitSpriteSelectorUI = function()
 {
     $('#sprite-selector-close').on('click', function() {
-        $('.sprite-selector-container-part').addClass('sprite-selector-container-hidden');
+        $('.sprite-selector-container-part').addClass('hidden');
     });
 
     $('#sprite-selector-container').on('click', '.sprite-selector-item', function () {
@@ -11,7 +11,7 @@ window.InitSpriteSelector = function()
         // Creates the sprite
         Module.create_sprite(sprite_texture_name);
         // Closes the sprite selector
-        $('.sprite-selector-container-part').addClass('sprite-selector-container-hidden');
+        $('.sprite-selector-container-part').addClass('hidden');
     });
 
     // This part adds all the sprites to sprite grid

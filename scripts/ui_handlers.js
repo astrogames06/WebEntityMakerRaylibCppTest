@@ -5,7 +5,11 @@ function InitUI()
             console.log("Entity Created!");
             // Opens the sprite selector
 
-            $('.sprite-selector-container-part').removeClass('sprite-selector-container-hidden');
+            $('.sprite-selector-container-part').removeClass('hidden');
+        });
+
+        $('#game-settings-btn').on('click', function() {
+            $(".game-settings-part").removeClass('hidden');
         });
 
         let size_inputs = $('.input-size-box');
@@ -135,6 +139,7 @@ function InitUI()
             }
         });
 
-        window.InitSpriteSelector();
+        window.InitSpriteSelectorUI();
+        window.InitGameSettingsUI();
     });
 }

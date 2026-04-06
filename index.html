@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="styles/inputs.css">
     <link rel="stylesheet" href="styles/sprites-list.css">
     <link rel="stylesheet" href="styles/sprite-selector.css">
+    <link rel="stylesheet" href="styles/game-settings.css">
     <link rel="stylesheet" href="styles/blur.css">
     <link rel="stylesheet" href="styles/terminal.css">
     </head>
@@ -27,18 +28,7 @@
                     <div class="top-buttons-left">
                         <button id="run-game-btn"><img src="assets/icons/play.svg" alt="play"></button>
                         <button id="code-editor-btn">Code Editor <img src="assets/icons/code.svg" alt="code"></button>
-                        <label id="showgrid-btn">Show Grid<input id="showgrid-checkbox" type="checkbox"></label>
-                        <button id="reset-camera-btn" class="hidden">Reset Camera <img src="assets/icons/camera.svg" alt="camera"></button>
-                    </div>
-                    <div class="input-size-box-divs">
-                        <div class="info-div-input-boxes">
-                            <span class="label">width:</span>
-                            <input type="number" value="840" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
-                        </div>
-                        <div class="info-div-input-boxes">
-                            <span class="label">height:</span>
-                            <input type="number" value="640" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
-                        </div>
+                        <button id="game-settings-btn">Settings <img src="assets/icons/settings.svg" alt="settings"></button>
                     </div>
                 </div>
                 <canvas class=emscripten id=canvas oncontextmenu=event.preventDefault() tabindex=-1></canvas>
@@ -75,17 +65,47 @@
                 </ul>
             </div>
         </div>
-        <div id="sprite-selector-container" class="sprite-selector-container-part sprite-selector-container-hidden">
+        <div id="game-settings-container" class="game-settings-part hidden">
+            <div id="game-settings-items">
+                <button id="game-settings-close">
+                    <img src="assets/icons/x.svg" alt="close">
+                </button>
+
+                <div id="game-settings-scroll-content">
+                    <h1 class="game-settings-title">Game Settings</h1>
+
+                    <h2 class="game-settings-sub">Window Size</h2>
+                    <div class="input-size-box-divs">
+                        <div class="info-div-input-boxes">
+                            <span class="label">width:</span>
+                            <input type="number" value="840" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
+                        </div>
+                        <div class="info-div-input-boxes">
+                            <span class="label">height:</span>
+                            <input type="number" value="640" min="300" max="800" step="1" pattern="[0-9]*" class="input-size-box" required>
+                        </div>
+                    </div>
+                    <h2 class="game-settings-sub">Camera</h2>
+                    <button id="reset-camera-btn">Reset Camera <img src="assets/icons/camera.svg" alt="camera"></button>
+
+                    <h2 class="game-settings-sub">Grid</h2>
+                    <label id="showgrid-btn">Show Grid<input id="showgrid-checkbox" type="checkbox"></label>
+                </div>
+            </div>
+        </div>
+        <div class="blur-bg game-settings-part hidden"></div> <!-- This is what is used to blur the background -->
+
+        <div id="sprite-selector-container" class="sprite-selector-container-part hidden">
             <h1 id="sprite-selector-container-title">Sprite Selector</h1>
 
             <div id="sprite-selector-items-grid">
 
             </div>
         </div>
-        <button id="sprite-selector-close" class="sprite-selector-container-part sprite-selector-container-hidden">
+        <button id="sprite-selector-close" class="sprite-selector-container-part hidden">
             <img src="assets/icons/x.svg" alt="close">
         </button>
-        <div id="blur-bg" class="sprite-selector-container-part sprite-selector-container-hidden"></div> <!-- This is what is used to blur the background -->
+        <div class="blur-bg sprite-selector-container-part hidden"></div> <!-- This is what is used to blur the background -->
 
         <!-- For the code to duplicate the element -->
         <li class="sprite-template" style="display:none;">
@@ -111,6 +131,7 @@
         <script src="scripts/javascript_game_loop.js"></script>
         <script src="scripts/entity_list.js"></script>
         <script src="scripts/sprite_selector.js"></script>
+        <script src="scripts/game_settings.js"></script>
         <script src="scripts/ui_handlers.js"></script>
         <script src="scripts/grid.js"></script>
         <script src="scripts/main.js"></script>

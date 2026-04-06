@@ -5,7 +5,7 @@
     width: fit-content;
 }
 
-.game-container button, .info-div-input-boxes, #showgrid-btn
+.game-container button, .game-container .info-div-input-boxes
 {
     font-weight: 600;
     background: #252526;

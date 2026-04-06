@@ -5,9 +5,11 @@ body { margin: 0px; }
 
 .hidden
 {
-    height: 0;
-    visibility: hidden;
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden !important;
+    overflow: hidden !important;
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }

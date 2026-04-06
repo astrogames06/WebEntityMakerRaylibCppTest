@@ -38,15 +38,5 @@ function javascript_game_loop()
     {
         sprite_editor_inputs_container.addClass('hidden'); // Hides the inputs
     }
-
-    // Shows the reset camera button
-    if (Module.camera_has_been_moved())
-    {
-        $('#reset-camera-btn').removeClass('hidden');
-    }
-    else
-    {
-        $('#reset-camera-btn').addClass('hidden');
-    }
     requestAnimationFrame(javascript_game_loop);
 }

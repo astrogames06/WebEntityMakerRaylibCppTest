@@ -44,7 +44,7 @@
     gap: 10px;
 }
 
-#reset-camera-btn
+.top-buttons-left button, input
 {
     display: flex;
     align-items: center;
@@ -52,89 +52,20 @@
     justify-self: left;
 }
 
-
-#reset-camera-btn:hover
-{
-    color: #57bcff;
-    img
-    {
-        filter: brightness(0) saturate(100%) invert(81%) sepia(22%) saturate(7484%) hue-rotate(176deg) brightness(99%) contrast(105%);
-    }
-}
-
-#reset-camera-btn img
+.top-buttons-left button img, input img
 {
     filter: invert(1);
     width: 20px;
 }
 
-#code-editor-btn
-{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-self: left;
-    outline: none !important;
-}
-
-#code-editor-btn img
-{
-    filter: invert(1);
-    width: 20px;
-}
-
-#code-editor-btn:hover
+#reset-camera-btn:hover, #code-editor-btn:hover, #game-settings-btn:hover
 {
     color: #57bcff;
+    border-color: #57bcff;
     img
     {
         filter: brightness(0) saturate(100%) invert(81%) sepia(22%) saturate(7484%) hue-rotate(176deg) brightness(99%) contrast(105%);
     }
-}
-
-#showgrid-btn
-{
-    display: flex;
-    align-items: center;
-    font-family: "Inter", sans-serif;
-    font-size: 13.33px; /* Same size of default button size */
-    gap: 10px;
-}
-#showgrid-btn:has(#showgrid-checkbox:checked)
-{
-    border-color: rgb(41, 121, 174);
-    color: #57bcff;
-    img
-    {
-        filter: brightness(0) saturate(100%) invert(81%) sepia(22%) saturate(7484%) hue-rotate(176deg) brightness(99%) contrast(105%);
-    }
-}
-#showgrid-btn:hover
-{
-    input
-    {
-       filter: brightness(0.92);
-    }
-}
-#showgrid-checkbox
-{
-    border: none !important;
-    outline: none !important;
-    -webkit-appearance: none;
-    width: 15px;
-    height: 15px;
-    border-radius: 5px;
-    background-color: white;
-}
-#showgrid-checkbox:checked
-{
-    background-color: #57bcff;
-    background-image: url("assets/icons/check.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    display: inline-block;
-    width: 15px;
-    height: 15px;
 }
 
 .input-box
