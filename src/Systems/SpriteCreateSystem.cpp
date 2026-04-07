@@ -17,7 +17,7 @@ Sprite* selected_sprite = nullptr;
 namespace Scenes
 {
     extern std::unique_ptr<Main> main_scene;
-}
+};
 
 EM_JS(void, js_add_entity_to_list, (const char* name), {
     AddEntityToList(UTF8ToString(name)); // converts the name to js string
