@@ -66,6 +66,7 @@
 .info-div-input-boxes input[type=number]::-webkit-inner-spin-button
 {
     -webkit-appearance: none;
+    appearance: textfield;   
     -moz-appearance: textfield;     
     margin: 0;
 }

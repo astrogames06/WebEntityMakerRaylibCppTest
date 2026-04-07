@@ -82,6 +82,7 @@
 {
     border: none !important;
     outline: none !important;
+    appearance: none;
     -webkit-appearance: none;
     width: 15px;
     height: 15px;
