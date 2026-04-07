@@ -44,7 +44,7 @@
     gap: 10px;
 }
 
-.top-buttons-left button, input
+.top-buttons-left button, input, a /* Sets that all the top buttons, inputs, links have a style  */
 {
     display: flex;
     align-items: center;
@@ -58,7 +58,7 @@
     width: 20px;
 }
 
-#reset-camera-btn:hover, #code-editor-btn:hover, #game-settings-btn:hover
+#reset-camera-btn:hover, #code-editor-btn:hover a, #game-settings-btn:hover
 {
     color: #57bcff;
     border-color: #57bcff;
