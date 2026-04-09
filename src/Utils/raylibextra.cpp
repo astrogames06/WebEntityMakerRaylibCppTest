@@ -37,3 +37,20 @@ void DrawRectangleLinesPro(Rectangle rect, Vector2 origin, float rotation, float
         DrawLineEx(start, end, thickness, color);
     }
 }
+
+void DrawInverseRectInfinite(Rectangle r, Color color)
+{
+    float size = 1000000.0f; // "infinite"
+
+    // top
+    DrawRectangle(-size, -size, size * 2, r.y + size, color);
+
+    // bottom
+    DrawRectangle(-size, r.y + r.height, size * 2, size * 2, color);
+
+    // left
+    DrawRectangle(-size, r.y, r.x + size, r.height, color);
+
+    // right
+    DrawRectangle(r.x + r.width, r.y, size * 2, r.height, color);
+}

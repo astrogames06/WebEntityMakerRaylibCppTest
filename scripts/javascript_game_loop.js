@@ -38,5 +38,10 @@ function javascript_game_loop()
     {
         sprite_editor_inputs_container.addClass('hidden'); // Hides the inputs
     }
-    requestAnimationFrame(javascript_game_loop);
+
+    // THIS CODE MIGHT CAUSE LAG IN FUTURE. FOR NOW ITS FINE
+    setInterval(() => {
+        requestAnimationFrame(javascript_game_loop);
+        clearInterval();
+    }, 1000 / 30); // 30 FPS
 }
