@@ -35,14 +35,14 @@ void Main::Update()
 }
 void Main::Draw()
 {
-    Rectangle world_rect =
-    {
-        game.GAME_MIN,
-        game.GAME_MIN,
-        game.GAME_MAX - game.GAME_MIN,
-        game.GAME_MAX - game.GAME_MIN
-    };
-    DrawInverseRectInfinite(world_rect, Fade(RED, 0.6f));
+    // Rectangle world_rect =
+    // {
+    //     game.GAME_MIN,
+    //     game.GAME_MIN,
+    //     game.GAME_MAX - game.GAME_MIN,
+    //     game.GAME_MAX - game.GAME_MIN
+    // };
+    // DrawInverseRectInfinite(world_rect, Fade(RED, 0.6f));
 }
 
 void Main::DrawUI()
