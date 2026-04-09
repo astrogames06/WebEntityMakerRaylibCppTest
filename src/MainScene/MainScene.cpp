@@ -1,11 +1,12 @@
 #include "MainScene.hpp"
 
-#include "../Sprite/Sprite.hpp"
+#include <emscripten/emscripten.h>
 #include <emscripten/bind.h>
 #include <raygui.h>
 #include <raymath.h>
-#include "../Utils/raylibextra.h"
 
+#include "../Utils/raylibextra.h"
+#include "../Sprite/Sprite.hpp"
 #include "../Systems/SpriteCreateSystem.hpp"
 #include "../Systems/CameraControlSystem.hpp"
 
@@ -24,9 +25,13 @@ void Main::Init()
     game.AddSystem(std::move(sprite_create_system));
 }
 
+EM_JS(bool, js_checkbox_info_on, (), {
+    return ShowInfoCheckboxOn();
+});
 void Main::Update()
 {
     // std::cout << game.GetEntitiesOfType<Sprite>().size() << '\n';
+    game.show_info = js_checkbox_info_on();
 }
 void Main::Draw()
 {
@@ -37,12 +42,15 @@ void Main::Draw()
         game.GAME_MAX - game.GAME_MIN,
         game.GAME_MAX - game.GAME_MIN
     };
-    // DrawInverseRectInfinite(world_rect, Fade(RED, 0.6f));
+    DrawInverseRectInfinite(world_rect, Fade(RED, 0.6f));
 }
 
 void Main::DrawUI()
 {
-    DrawFPS(20, 20);
+    if (game.show_info)
+    {
+        DrawFPS(20, game.HEIGHT-20);
+    }
 }
 Vector2 GetWindowSize()
 {

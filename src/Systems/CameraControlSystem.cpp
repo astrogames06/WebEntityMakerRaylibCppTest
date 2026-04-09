@@ -97,10 +97,9 @@ void CameraControlSystem::Draw()
     }
 }
 
-bool CameraHasBeenMoved();
 void CameraControlSystem::DrawUI()
 {
-    if (CameraHasBeenMoved())
+    if (game.show_info)
     {
         std::string camera_str =
         "Camera X: " + std::to_string((int)game.camera.target.x) +
@@ -119,10 +118,6 @@ void ResetCamera()
     game.camera.rotation = 0.0f;
     game.camera.zoom = 1.0f;
 }
-bool CameraHasBeenMoved()
-{
-    return (game.camera.target.x != 0 || game.camera.target.y != 0 || game.camera.zoom != 1.0f);
-}
 void MoveCameraToEntity(Entity* entity)
 {
     game.camera.target = {
@@ -134,6 +129,5 @@ void MoveCameraToEntity(Entity* entity)
 EMSCRIPTEN_BINDINGS(camera_control_module)
 {
     emscripten::function("reset_camera", &ResetCamera);
-    emscripten::function("camera_has_been_moved", &CameraHasBeenMoved);
     emscripten::function("move_camera_to_entity", &MoveCameraToEntity, emscripten::allow_raw_pointers());
 }

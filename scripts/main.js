@@ -2,6 +2,7 @@ var Module = {
     onRuntimeInitialized: function () {
         console.log("onRuntimeInitialized ran!");
         InitUI();
+        StartUIUpdate();
 
         requestAnimationFrame(javascript_game_loop);
     },

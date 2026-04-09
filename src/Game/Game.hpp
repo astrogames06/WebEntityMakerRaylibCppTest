@@ -21,6 +21,7 @@ public:
     const std::string TITLE = "raylib [core] example - basic window";
     Vector2 mouse_pos; // Mouse position relative to camera;
     Camera2D camera;
+    bool show_info = false;
     
     void AddEntity(std::unique_ptr<Entity> entity);
     void AddSystem(std::unique_ptr<System> system);

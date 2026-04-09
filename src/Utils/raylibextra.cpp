@@ -40,17 +40,19 @@ void DrawRectangleLinesPro(Rectangle rect, Vector2 origin, float rotation, float
 
 void DrawInverseRectInfinite(Rectangle r, Color color)
 {
-    float size = 1000000.0f; // "infinite"
+    float s = 1000000.0f;
+    float overlap = 1.0f;   // Small overlap to guarantee the four "corner" junctions are filled
+                            // (prevents any 1-pixel gaps due to floating-point rasterization)
 
-    // top
-    DrawRectangle(-size, -size, size * 2, r.y + size, color);
+    // Top (full width, above the rect)
+    DrawRectangle(-s, -s, 2*s, r.y + s, color);
 
-    // bottom
-    DrawRectangle(-size, r.y + r.height, size * 2, size * 2, color);
+    // Bottom (full width, below the rect)
+    DrawRectangle(-s, r.y + r.height, 2*s, 2*s, color);
 
-    // left
-    DrawRectangle(-size, r.y, r.x + size, r.height, color);
+    // Left (extends slightly into top & bottom areas so the top-left and bottom-left corners are guaranteed)
+    DrawRectangle(-s, r.y - overlap, r.x + s, r.height + 2*overlap, color);
 
-    // right
-    DrawRectangle(r.x + r.width, r.y, size * 2, r.height, color);
+    // Right (same extension for top-right / bottom-right corners)
+    DrawRectangle(r.x + r.width, r.y - overlap, 2*s, r.height + 2*overlap, color);
 }

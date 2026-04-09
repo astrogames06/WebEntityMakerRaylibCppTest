@@ -53,7 +53,7 @@
     border-radius: 10px;
 }
 
-#showgrid-btn
+#showgrid-btn, #showinfo-btn
 {
     display: flex;
     align-items: center;
@@ -62,23 +62,19 @@
     width: fit-content;
     gap: 10px;
 }
-#showgrid-btn:has(#showgrid-checkbox:checked)
+#showgrid-btn:has(#showgrid-checkbox:checked), #showinfo-btn:has(#showinfo-checkbox:checked)
 {
     border-color: rgb(41, 121, 174);
     color: #57bcff;
-    img
-    {
-        filter: brightness(0) saturate(100%) invert(81%) sepia(22%) saturate(7484%) hue-rotate(176deg) brightness(99%) contrast(105%);
-    }
 }
-#showgrid-btn:hover
+#showgrid-btn:hover, #showinfo-btn:hover
 {
     input
     {
        filter: brightness(0.92);
     }
 }
-#showgrid-checkbox
+#showgrid-checkbox, #showinfo-checkbox
 {
     border: none !important;
     outline: none !important;
@@ -89,7 +85,7 @@
     border-radius: 5px;
     background-color: white;
 }
-#showgrid-checkbox:checked
+#showgrid-checkbox:checked, #showinfo-checkbox:checked
 {
     background-color: #57bcff;
     background-image: url("assets/icons/check.svg");

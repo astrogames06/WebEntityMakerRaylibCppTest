@@ -28,8 +28,6 @@ void UpdateDrawFrame();
 
 int main(void)
 {
-	SetTargetFPS(120);
-
 	InitWindow(game.WIDTH, game.HEIGHT, game.TITLE.c_str());
 	game.Init();
 

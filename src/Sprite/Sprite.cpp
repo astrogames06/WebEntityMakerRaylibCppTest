@@ -15,8 +15,9 @@ void Sprite::Update()
 {
     angle = Clamp(angle, 0.f, 360.f);
 
-    x = Clamp(x, game.GAME_MIN, game.GAME_MAX);
-    y = Clamp(y, game.GAME_MIN, game.GAME_MAX);
+    // Keeps it in the world bounding box
+    x = Clamp(x, game.GAME_MIN + texture.width/2, game.GAME_MAX - texture.width/2);
+    y = Clamp(y, game.GAME_MIN + texture.height/2, game.GAME_MAX - texture.height/2);
 }
 
 void Sprite::Draw()

@@ -38,10 +38,12 @@ function javascript_game_loop()
     {
         sprite_editor_inputs_container.addClass('hidden'); // Hides the inputs
     }
+}
 
-    // THIS CODE MIGHT CAUSE LAG IN FUTURE. FOR NOW ITS FINE
-    setInterval(() => {
-        requestAnimationFrame(javascript_game_loop);
-        clearInterval();
-    }, 1000 / 30); // 30 FPS
+// This makes sure the javascript runs at 30fps so it does not effect the C++
+let UiInterval = null;
+function StartUIUpdate()
+{
+    if (UiInterval) return;
+    UiInterval = setInterval(javascript_game_loop, 1000 / 30);   // 30 FPS
 }
