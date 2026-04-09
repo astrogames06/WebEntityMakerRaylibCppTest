@@ -29,13 +29,20 @@ function InitUI()
                 let x = axis_inputs[0].value;
                 let y = axis_inputs[1].value;
                 let angle = $('#input-angle-box').val();
-                let name = $('#input-name-box').val();
 
                 let entity = Module.get_current_entity();
                 entity.x = x; entity.y = y; entity.angle = angle;
-                entity.name = name;
             })
         });
+        // Updates the sprite name and list as you type it in
+        $('#input-name-box').on('input', function() {
+            let current_entity = Module.get_current_entity();
+            let entity_i = Module.get_entity_index(current_entity);
+
+            let new_name = $(this).val();
+            Module.set_sprite_name(current_entity, new_name);
+            $(".sprites-list-ul li").eq(entity_i).find('.entity-list-name').text(current_entity.name); // Sets the lists new name
+        }); 
 
         $('.sprites-list-ul').on('click', 'li', function(e) {
             if ($(e.target).is('button, img')) return;
@@ -46,14 +53,7 @@ function InitUI()
             Module.set_selected_entity(sprite_to_be_selected); // Sets selected sprite
         });
 
-        // Updates the sprite name and list as you type it in
-        $('#input-name-box').on('input', function() {
-            let current_entity = Module.get_current_entity();
-            let entity_i = Module.get_entity_index(current_entity);
-
-            current_entity.name = $(this).val();
-            $(".sprites-list-ul li").eq(entity_i).find('.entity-list-name').text(current_entity.name); // Sets the lists new name
-        }); 
+        
 
         $("#delete-entity-btn-game").on('click', function() {
             Module.delete_current_entity();

@@ -10,6 +10,7 @@
 #include "../MainScene/MainScene.hpp"
 #include "../Entity/Entity.hpp"
 #include "../Sprite/Sprite.hpp"
+#include "../Utils/Utils.hpp"
 
 bool is_sprite_selected = false;
 Sprite* selected_sprite = nullptr;
@@ -46,6 +47,10 @@ bool did_click_on_sprite = false;
 void SpriteCreateSystem::Update()
 {
     // std::cout << "IsSpriteSelected: " << IsSpriteSelected() << '\n';
+    if (IsKeyPressed(KEY_O))
+    {
+        js_alert(selected_sprite->name.c_str());
+    }
     for (Sprite* sprite : game.GetEntitiesOfType<Sprite>(Scenes::main_scene.get()))
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -136,7 +141,7 @@ Sprite* CreateSprite(std::string texture_name)
     bool sprite_name_exists = std::find_if(sprites_v.begin(), sprites_v.end(),
         [&](Sprite* s)
         {
-            return s->name == new_sprite_name;
+            return remove_whitespace_str(s->name) == remove_whitespace_str(new_sprite_name);
         }) != sprites_v.end();
 
     // Checks if the sprite name already exists. If so it keeps updating till its name is unique
@@ -149,7 +154,7 @@ Sprite* CreateSprite(std::string texture_name)
         sprite_name_exists = std::find_if(sprites_v.begin(), sprites_v.end(),
             [&](Sprite* s)
             {
-                return s->name == new_sprite_name;
+                return remove_whitespace_str(s->name) == remove_whitespace_str(new_sprite_name);
             }) != sprites_v.end();
     }
 
@@ -215,6 +220,31 @@ void DeleteIndexedEntity(int sprite_index)
         js_remove_entity_from_list(sprite_index);
     }
 }
+// Sets sprite name correctly for the javascript
+void SetSpriteName(Sprite* sprite, std::string name)
+{
+    const auto sprites_v = game.GetEntitiesOfType<Sprite>();
+
+    std::string new_name = name;
+    int suffix = 0;
+
+    auto exists = [&](const std::string& n)
+    {
+        return std::find_if(sprites_v.begin(), sprites_v.end(),
+            [&](Sprite* s)
+            {
+                return s != sprite && remove_whitespace_str(s->name) == remove_whitespace_str(n);
+            }) != sprites_v.end();
+    };
+
+    while (exists(new_name))
+    {
+        // Removes whitespace from if there is and adds the suffix
+        new_name = remove_whitespace_str_from_back(name) + " " + std::to_string(++suffix);
+    }
+
+    sprite->name = new_name;
+}
 void OnBlur()
 {
     is_sprite_selected = false;
@@ -227,8 +257,11 @@ EMSCRIPTEN_BINDINGS(sprite_creator_module)
     emscripten::function("duplicate_sprite", &DuplicateSprite, emscripten::allow_raw_pointers());
     emscripten::function("is_sprite_selected", &IsSpriteSelected);
     emscripten::function("selected_sprite_index", &SelectedSpriteIndex);
+    emscripten::function("set_sprite_name", &SetSpriteName, emscripten::allow_raw_pointers());
+
     emscripten::function("get_entity_index", &GetEntityIndex, emscripten::allow_raw_pointers());
     emscripten::function("get_sprite_by_index", &GetSpriteByIndex, emscripten::allow_raw_pointers());
+
 
     emscripten::function("on_blur", &OnBlur);
     emscripten::function("delete_current_entity", &DeleteCurrentEntity);

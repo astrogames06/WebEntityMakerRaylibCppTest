@@ -63,10 +63,12 @@
 }
 
 .info-div-input-boxes input[type=number]::-webkit-outer-spin-button,
-.info-div-input-boxes input[type=number]::-webkit-inner-spin-button
-{
+.info-div-input-boxes input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    appearance: textfield;   
-    -moz-appearance: textfield;     
     margin: 0;
+}
+
+.info-div-input-boxes input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
