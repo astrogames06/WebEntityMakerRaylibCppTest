@@ -47,10 +47,10 @@ bool did_click_on_sprite = false;
 void SpriteCreateSystem::Update()
 {
     // std::cout << "IsSpriteSelected: " << IsSpriteSelected() << '\n';
-    // if (IsKeyPressed(KEY_O))
-    // {
-    //     js_alert(selected_sprite->name.c_str());
-    // }
+    if (IsKeyPressed(KEY_O))
+    {
+        js_alert(selected_sprite->name.c_str());
+    }
     for (Sprite* sprite : game.GetEntitiesOfType<Sprite>(Scenes::main_scene.get()))
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -198,18 +198,6 @@ std::string CreateSpriteDefaultName()
 
     return new_sprite_name;
 }
-void DuplicateSprite(Sprite* sprite)
-{
-    Sprite* new_sprite = CreateSprite(sprite->texture_name); // Makes new sprite
-    
-    // Copies all sprite info
-    new_sprite->texture = sprite->texture;
-    new_sprite->angle = sprite->angle;
-
-    // Slightly offsets its x and y position
-    new_sprite->x = sprite->x - sprite->texture.width / 2; 
-    new_sprite->y = sprite->y + sprite->texture.height / 2;
-}
 Entity* GetSpriteByIndex(int index)
 {
     const auto& sprites_v = game.GetEntitiesOfType<Sprite>();
@@ -255,7 +243,7 @@ std::string GetSpriteName(Sprite* sprite)
     return sprite->name;
 }
 // Sets sprite name correctly for the javascript
-void SetSpriteName(Sprite* sprite, std::string name)
+std::string SetSpriteName(Sprite* sprite, std::string name)
 {
     const auto sprites_v = game.GetEntitiesOfType<Sprite>();
     std::string original_name = name;
@@ -281,6 +269,22 @@ void SetSpriteName(Sprite* sprite, std::string name)
     }
 
     sprite->name = name;
+    return name;
+}
+void DuplicateSprite(Sprite* sprite)
+{
+    Sprite* new_sprite = CreateSprite(sprite->texture_name); // Makes new sprite
+    
+    // Copies all sprite info
+    new_sprite->texture = sprite->texture;
+    new_sprite->angle = sprite->angle;
+
+    // Slightly offsets its x and y position
+    new_sprite->x = sprite->x - sprite->texture.width / 2; 
+    new_sprite->y = sprite->y + sprite->texture.height / 2;
+
+    // This makes sure its name is a variation of the its duplicating from
+    new_sprite->name = SetSpriteName(new_sprite, sprite->name);
 }
 void OnBlur()
 {

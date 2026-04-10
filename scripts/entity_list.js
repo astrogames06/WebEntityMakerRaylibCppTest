@@ -20,3 +20,14 @@ function RemoveEntityFromList(index) // Used in the C++
         $(this).find('.entity-list-number').text(`#${i}`);
     });
 }
+
+function UpdateEntityList()
+{
+    // Loops through the entity list and makes sure each of the names are updated correctly
+    $('.sprites-list-ul li').each(function(i) {
+        let sprite = Module.get_sprite_by_index(i);
+        let name = Module.get_sprite_name(sprite);
+
+        $(this).find('.entity-list-name').text(name);
+    });
+}

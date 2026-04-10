@@ -38,6 +38,9 @@ function javascript_game_loop()
     {
         sprite_editor_inputs_container.addClass('hidden'); // Hides the inputs
     }
+
+    // Updates the entity list
+    UpdateEntityList();
 }
 
 // This makes sure the javascript runs at 30fps so it does not effect the C++

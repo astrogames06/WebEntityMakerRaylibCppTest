@@ -37,13 +37,9 @@ function InitUI()
         // Updates the sprite name and list as you type it in
         $('#input-name-box').on('input', function() {
             let current_entity = Module.get_current_entity();
-            let entity_i = Module.get_entity_index(current_entity);
-
             let new_name = $(this).val();
+            
             Module.set_sprite_name(current_entity, new_name);
-
-            let name = Module.get_sprite_name(current_entity)
-            $(".sprites-list-ul li").eq(entity_i).find('.entity-list-name').text(name); // Sets the lists new name
         }); 
 
         $('.sprites-list-ul').on('click', 'li', function(e) {
