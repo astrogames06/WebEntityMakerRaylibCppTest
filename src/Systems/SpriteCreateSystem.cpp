@@ -169,6 +169,35 @@ Sprite* CreateSprite(std::string texture_name)
 
     return raw_sprite_ptr;
 }
+std::string CreateSpriteDefaultName()
+{
+    const auto& sprites_v = game.GetEntitiesOfType<Sprite>();
+
+    int name_num_addition = 0;
+
+    std::string new_sprite_name = "Sprite " + std::to_string(name_num_addition); // Sets Default name
+    bool sprite_name_exists = std::find_if(sprites_v.begin(), sprites_v.end(),
+        [&](Sprite* s)
+        {
+            return remove_whitespace_str(s->name) == remove_whitespace_str(new_sprite_name);
+        }) != sprites_v.end();
+
+    // Checks if the sprite name already exists. If so it keeps updating till its name is unique
+    while (sprite_name_exists)
+    {
+        name_num_addition++;
+        new_sprite_name = "Sprite " + std::to_string(name_num_addition);
+
+        // Rechecks
+        sprite_name_exists = std::find_if(sprites_v.begin(), sprites_v.end(),
+            [&](Sprite* s)
+            {
+                return remove_whitespace_str(s->name) == remove_whitespace_str(new_sprite_name);
+            }) != sprites_v.end();
+    }
+
+    return new_sprite_name;
+}
 void DuplicateSprite(Sprite* sprite)
 {
     Sprite* new_sprite = CreateSprite(sprite->texture_name); // Makes new sprite
@@ -224,9 +253,8 @@ void DeleteIndexedEntity(int sprite_index)
 void SetSpriteName(Sprite* sprite, std::string name)
 {
     const auto sprites_v = game.GetEntitiesOfType<Sprite>();
-
-    std::string new_name = name;
-    int suffix = 0;
+    std::string original_name = name;
+    int suffix = 1;
 
     auto exists = [&](const std::string& n)
     {
@@ -237,13 +265,17 @@ void SetSpriteName(Sprite* sprite, std::string name)
             }) != sprites_v.end();
     };
 
-    while (exists(new_name))
+    if (remove_whitespace_str(name).empty())
     {
-        // Removes whitespace from if there is and adds the suffix
-        new_name = remove_whitespace_str_from_back(name) + " " + std::to_string(++suffix);
+        name = CreateSpriteDefaultName();
     }
 
-    sprite->name = new_name;
+    while (exists(name))
+    {
+        name = original_name + " " + std::to_string(suffix++);
+    }
+
+    sprite->name = name;
 }
 void OnBlur()
 {
