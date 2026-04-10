@@ -22,7 +22,7 @@ function javascript_game_loop()
 
         if (current_entity) // Makes sure entity exists
         {
-            $('#input-name-box').val(current_entity.name); // Shows name
+            $('#input-name-box').val(Module.get_sprite_name(current_entity)); // Shows name
 
             axis_inputs[0].value = current_entity.x;
             axis_inputs[1].value = current_entity.y;

@@ -41,7 +41,9 @@ function InitUI()
 
             let new_name = $(this).val();
             Module.set_sprite_name(current_entity, new_name);
-            $(".sprites-list-ul li").eq(entity_i).find('.entity-list-name').text(current_entity.name); // Sets the lists new name
+
+            let name = Module.get_sprite_name(current_entity)
+            $(".sprites-list-ul li").eq(entity_i).find('.entity-list-name').text(name); // Sets the lists new name
         }); 
 
         $('.sprites-list-ul').on('click', 'li', function(e) {
@@ -73,7 +75,7 @@ function InitUI()
 
         $(document).on("click", ".copy-entity-btn-list", function() {
             let entity_index = $(this).closest('li').index();
-            let entity_name = Module.get_sprite_by_index(entity_index).name;
+            let entity_name = Module.get_sprite_name(Module.get_sprite_by_index(entity_index));
 
             navigator.clipboard.writeText(entity_name);
             $(this).find('img').attr('src', 'assets/icons/check.svg'); // Changes icon

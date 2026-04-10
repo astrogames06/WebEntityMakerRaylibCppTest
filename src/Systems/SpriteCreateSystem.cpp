@@ -47,10 +47,10 @@ bool did_click_on_sprite = false;
 void SpriteCreateSystem::Update()
 {
     // std::cout << "IsSpriteSelected: " << IsSpriteSelected() << '\n';
-    if (IsKeyPressed(KEY_O))
-    {
-        js_alert(selected_sprite->name.c_str());
-    }
+    // if (IsKeyPressed(KEY_O))
+    // {
+    //     js_alert(selected_sprite->name.c_str());
+    // }
     for (Sprite* sprite : game.GetEntitiesOfType<Sprite>(Scenes::main_scene.get()))
     {
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
@@ -249,6 +249,11 @@ void DeleteIndexedEntity(int sprite_index)
         js_remove_entity_from_list(sprite_index);
     }
 }
+// Gets the sprite name
+std::string GetSpriteName(Sprite* sprite)
+{
+    return sprite->name;
+}
 // Sets sprite name correctly for the javascript
 void SetSpriteName(Sprite* sprite, std::string name)
 {
@@ -289,6 +294,8 @@ EMSCRIPTEN_BINDINGS(sprite_creator_module)
     emscripten::function("duplicate_sprite", &DuplicateSprite, emscripten::allow_raw_pointers());
     emscripten::function("is_sprite_selected", &IsSpriteSelected);
     emscripten::function("selected_sprite_index", &SelectedSpriteIndex);
+
+    emscripten::function("get_sprite_name", &GetSpriteName, emscripten::allow_raw_pointers());
     emscripten::function("set_sprite_name", &SetSpriteName, emscripten::allow_raw_pointers());
 
     emscripten::function("get_entity_index", &GetEntityIndex, emscripten::allow_raw_pointers());
@@ -301,6 +308,5 @@ EMSCRIPTEN_BINDINGS(sprite_creator_module)
 
     emscripten::function("get_current_entity", &GetCurrentEntity, emscripten::allow_raw_pointers());
 
-    emscripten::class_<Sprite, emscripten::base<Entity>>("Sprite")
-        .property("name", &Sprite::name);
+    emscripten::class_<Sprite, emscripten::base<Entity>>("Sprite");
 }
