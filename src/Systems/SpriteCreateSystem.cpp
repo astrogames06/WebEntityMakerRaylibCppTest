@@ -42,6 +42,7 @@ int SelectedSpriteIndex()
 
     return sprite_index;
 }
+void DeleteCurrentEntity();
 
 bool did_click_on_sprite = false;
 void SpriteCreateSystem::Update()
@@ -82,6 +83,12 @@ void SpriteCreateSystem::Update()
     {
         selected_sprite->x = game.mouse_pos.x;
         selected_sprite->y = game.mouse_pos.y;
+    }
+
+    // Deletes entity on when click backspace/delete
+    if (IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_DELETE))
+    {
+        DeleteCurrentEntity();
     }
 
     // Makes sure that they are both set false
@@ -265,7 +272,7 @@ std::string SetSpriteName(Sprite* sprite, std::string name)
 
     while (exists(name))
     {
-        name = original_name + " " + std::to_string(suffix++);
+        name = remove_whitespace_str_from_back(original_name) + " " + std::to_string(suffix++);
     }
 
     sprite->name = name;
