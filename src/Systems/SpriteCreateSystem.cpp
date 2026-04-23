@@ -20,9 +20,11 @@ namespace Scenes
     extern std::unique_ptr<Main> main_scene;
 };
 
+// This function adds an entity to the visual entity list
 EM_JS(void, js_add_entity_to_list, (const char* name), {
     AddEntityToList(UTF8ToString(name)); // converts the name to js string
 });
+// This function removes an entity to the visual entity list
 EM_JS(void, js_remove_entity_from_list, (int index), {
     RemoveEntityFromList(index);
 });
